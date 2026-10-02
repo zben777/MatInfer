@@ -146,14 +146,11 @@ Elementwise
 
 公式：
 
-$$
-C_{M\times N}
-=
-A_{M\times K}
-B_{K\times N}
-$$
+```math
+C_{M\times N}=A_{M\times K}B_{K\times N}.
+```
 
-然后不要只写公式，要把 $ M/N/K $ 和 LLM 联系起来。
+将矩阵维度 $M$、$N$、$K$ 与 LLM 的计算对应起来。
 
 例如 Linear：
 
@@ -228,11 +225,15 @@ Tile 浪费更明显
 
 Attention 的算子框可以直接写：
 
-$ S = \frac{QK^T}{\sqrt{d}} $
+```math
+\begin{aligned}
+S &= \frac{QK^{\mathsf T}}{\sqrt{d_k}}, \\
+P &= \operatorname{softmax}_{\mathrm{row}}(S), \\
+O &= PV.
+\end{aligned}
+```
 
-$ P = \operatorname{softmax}(S) $
-
-$ O = PV $
+这里 $Q\in\mathbb{R}^{L_q\times d_k}$、$K\in\mathbb{R}^{L_{kv}\times d_k}$、$V\in\mathbb{R}^{L_{kv}\times d_v}$，因此 $O\in\mathbb{R}^{L_q\times d_v}$。这是单个 Attention head 的简化表示，Softmax 沿 key 序列维计算；因果或 Padding Mask 应在 Softmax 前应用。
 
 但是这里必须强调：
 
@@ -293,11 +294,15 @@ FlashAttention
 
 普通稳定 Softmax：
 
-$ m = \max_i x_i $
+```math
+\begin{aligned}
+m &= \max_{1\le j\le n}x_j, \\
+\ell &= \sum_{j=1}^{n}\exp(x_j-m), \\
+p_i &= \frac{\exp(x_i-m)}{\ell}, \qquad i=1,\ldots,n.
+\end{aligned}
+```
 
-$ l = \sum_i e^{x_i-m} $
-
-$ p_i = \frac{e^{x_i-m}}{l} $
+$x_i$ 是输入分数，$m$ 是行最大值，$\ell$ 是归一化分母，$p_i$ 是输出概率。用 $\ell$ 代替字母 l，避免与数字 1 混淆。
 
 问题：
 
@@ -313,15 +318,14 @@ Online Softmax：
 
 维护两个状态：
 
-$ m_i=\max(m_{i-1},x_i) $
+```math
+\begin{aligned}
+m_t &= \max(m_{t-1},x_t), \\
+\ell_t &= \ell_{t-1}\exp(m_{t-1}-m_t)+\exp(x_t-m_t), \qquad t\ge 2.
+\end{aligned}
+```
 
-$$
-l_i
-=
-l_{i-1}e^{m_{i-1}-m_i}
-+
-e^{x_i-m_i}
-$$
+这是逐元素递推的概念形式，初始化 $m_1=x_1$、$\ell_1=1$。处理完整行后，$m_n$ 与 $\ell_n$ 等价于稳定 Softmax 的最大值和分母；分块实现还需要块级状态合并。在 FlashAttention 中还要同步维护加权输出累积，不能只用这两个标量直接得到 Attention 输出。
 
 > **核心意义：支持流式 / 分块处理，不需要保存完整 Score Matrix。**
 
@@ -417,12 +421,11 @@ FlashMLA / FlashDecode
 
 RMSNorm：
 
-$$
-y_i=
-\gamma_i
-\frac{x_i}
-{\sqrt{\frac{1}{N}\sum_jx_j^2+\epsilon}}
-$$
+```math
+y_i=\gamma_i\frac{x_i}{\sqrt{\frac{1}{n}\sum_{j=1}^{n}x_j^2+\epsilon}},\qquad i=1,\ldots,n.
+```
+
+$n$ 是当前归一化维度；这里使用 $n$，避免与 GEMM 的矩阵维度 $N$ 混淆。
 
 ```text
 Load x
@@ -736,7 +739,7 @@ Effective Bandwidth
 
 TFLOPS
 
-MFU
+Compute Utilization
 
 MBU
 
@@ -745,19 +748,19 @@ Arithmetic Intensity
 
 比如 GEMM：
 
-$$
-\text{Compute Utilization}=
-\frac{\text{Achieved FLOPs per second}}
-{\text{Peak FLOPs per second}}
-$$
+```math
+U_{\mathrm{compute}}=\frac{F/t}{P_{\mathrm{peak}}}.
+```
+
+$F$ 是选定统计范围内的运算次数，$t$ 是运行时间，$P_{\mathrm{peak}}$ 是匹配精度与设备的峰值计算吞吐，单位均按 FLOP/s 对齐。
 
 Memory Bound 算子：
 
-$$
-MBU=
-\frac{\text{Actual Bandwidth}}
-{\text{Peak Bandwidth}}
-$$
+```math
+\mathrm{MBU}=\frac{B_{\mathrm{HBM}}/t}{BW_{\mathrm{peak}}}.
+```
+
+$B_{\mathrm{HBM}}$ 是实际 HBM 传输字节数，$BW_{\mathrm{peak}}$ 是峰值 HBM 带宽。若只用算法输入输出字节估算，应标为有效带宽，不能直接当作实测 HBM 利用率。
 
 ---
 
@@ -765,9 +768,9 @@ $$
 
 ## 面试与自测问题
 
-1. GEMM 的 $ M/N/K $ 分别代表什么？
-2. 为什么小 $ M $ GEMM 效率差？
-3. 为什么 $ K $ 很小时 Tensor Core 利用率可能低？
+1. GEMM 的 $M$、$N$、$K$ 分别代表什么？
+2. 为什么小 $M$ GEMM 效率差？
+3. 为什么 $K$ 很小时 Tensor Core 利用率可能低？
 4. Softmax 和 Online Softmax 有什么区别？
 5. FlashAttention 为什么减少 HBM 访问？
 6. Decode Attention 为什么常常 memory-bound？

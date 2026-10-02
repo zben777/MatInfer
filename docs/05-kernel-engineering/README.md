@@ -1266,9 +1266,14 @@ PyTorch reference
 
 精度检查：
 
-$ \text{max abs error} $
+```math
+\begin{aligned}
+E_{\mathrm{abs}} &= \max_i\left|y_i-\widehat y_i\right|, \\
+E_{\mathrm{rel}} &= \max_i\frac{\left|y_i-\widehat y_i\right|}{\max(\left|y_i\right|,\delta)}.
+\end{aligned}
+```
 
-$ \text{relative error} $
+$y_i$ 是参考结果，$\widehat y_i$ 是待检查结果，$\delta>0$ 避免参考值接近零时分母失稳。这里给出一种逐元素相对误差口径；实际检查应记录容差和使用的误差定义。
 
 然后才 Benchmark。
 

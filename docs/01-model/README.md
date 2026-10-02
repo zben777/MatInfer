@@ -133,9 +133,14 @@ MoE Layer   → DeepSeekMoE
 
 ## RMSNorm
 
-$ r=\sqrt{\frac{1}{n}\sum_{i=1}^{n}x_i^2+\epsilon} $
+```math
+\begin{aligned}
+r(x) &= \sqrt{\frac{1}{n}\sum_{j=1}^{n}x_j^2+\epsilon}, \\
+y_i &= \operatorname{RMSNorm}(x)_i = \gamma_i\frac{x_i}{r(x)}.
+\end{aligned}
+```
 
-$ \operatorname{RMSNorm}(x)=\gamma\frac{x}{r} $
+其中，$n$ 是归一化维度，$\gamma_i$ 是可学习的逐元素缩放参数，$\epsilon>0$ 用于数值稳定。
 
 ```text
 ① 不计算 mean
@@ -251,11 +256,15 @@ KV Latent
 
 这块继续保留经典公式，因为后面算子层还会继续展开。
 
-$ S=\frac{QK^T}{\sqrt{d}} $
+```math
+\begin{aligned}
+S &= \frac{QK^{\mathsf T}}{\sqrt{d_k}}, \\
+P &= \operatorname{softmax}_{\mathrm{row}}(S), \\
+O &= PV.
+\end{aligned}
+```
 
-$ P=\operatorname{softmax}(S) $
-
-$ O=PV $
+这里 $Q\in\mathbb{R}^{L_q\times d_k}$、$K\in\mathbb{R}^{L_{kv}\times d_k}$、$V\in\mathbb{R}^{L_{kv}\times d_v}$，因此 $O\in\mathbb{R}^{L_q\times d_v}$。这是单个 Attention head 的简化表示，Softmax 沿 key 序列维计算；因果或 Padding Mask 应在 Softmax 前应用。
 
 分为两个阶段：
 
@@ -358,21 +367,23 @@ RoPE 这一块不用像参考图那么大，但保留一个二维旋转示意会
 
 公式可以简化：
 
-$$
+```math
 \begin{bmatrix}
-x'_{2i}\\
-x'_{2i+1}
+x'_{p,2i} \\
+x'_{p,2i+1}
 \end{bmatrix}
 =
 \begin{bmatrix}
-\cos\theta & -\sin\theta\\
-\sin\theta & \cos\theta
+\cos\theta_{p,i} & -\sin\theta_{p,i} \\
+\sin\theta_{p,i} & \cos\theta_{p,i}
 \end{bmatrix}
 \begin{bmatrix}
-x_{2i}\\
-x_{2i+1}
-\end{bmatrix}
-$$
+x_{p,2i} \\
+x_{p,2i+1}
+\end{bmatrix}.
+```
+
+$p$ 表示 Token 位置，$i$ 表示维度对，$\theta_{p,i}$ 是该位置与维度对对应的旋转角。上式采用相邻维度配对的概念表示；实际配对 Layout 与频率缩放方式需结合模型实现确认。
 
 ```text
 RoPE 作用：

@@ -46,9 +46,9 @@
 
 [对应内容与题目](../docs/03-operators/README.md#section-18)
 
-1. GEMM 的 $ M/N/K $ 分别代表什么？
-2. 为什么小 $ M $ GEMM 效率差？
-3. 为什么 $ K $ 很小时 Tensor Core 利用率可能低？
+1. GEMM 的 $M$、$N$、$K$ 分别代表什么？
+2. 为什么小 $M$ GEMM 效率差？
+3. 为什么 $K$ 很小时 Tensor Core 利用率可能低？
 4. Softmax 和 Online Softmax 有什么区别？
 5. FlashAttention 为什么减少 HBM 访问？
 6. Decode Attention 为什么常常 memory-bound？
