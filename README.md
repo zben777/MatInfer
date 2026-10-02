@@ -8,6 +8,28 @@ MatInfer 是一个持续积累的推理知识与实践仓库：从模型原理�
 
 > 当前状态：仓库框架与六层内容草案已建立。已有文本来自两份初始规划稿的整理；完整教程、面试答案和可运行实验仍需逐步完成。
 
+## 推理知识地图
+
+从模型到推理服务、算子、Kernel 与 GPU 硬件，先建立整体认识。
+
+![大模型推理技术栈](assets/images/inference-stack.png)
+
+<details>
+<summary>展开 Transformer 原理图（以 LLaMA / Qwen 为例）</summary>
+
+![Transformer 原理图](assets/images/transformer-overview.png)
+
+</details>
+
+<details>
+<summary>展开 DeepSeek 推理全栈面试知识地图</summary>
+
+![DeepSeek 推理全栈面试知识地图](assets/images/deepseek-interview-map.png)
+
+</details>
+
+这三张图用于全景学习与复习，目前保留原图。部分公式、结构与并行术语仍需修订，具体技术解释以相应专题正文为准。
+
 ## 从这里开始
 
 - [知识总导航](导航.md)：六层主线、层间联系与专题入口。
