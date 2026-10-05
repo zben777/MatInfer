@@ -247,7 +247,7 @@ Active Warp 很多
 \mathrm{Occupancy}=\frac{W_{\mathrm{active}}}{W_{\mathrm{max}}}.
 ```
 
-$W_{\mathrm{active}}$ 是每个 SM 的驻留 Warp 数，$W_{\mathrm{max}}$ 是架构允许的最大驻留 Warp 数。该比值可写成百分比；测量时需区分理论 Occupancy 与实际达到的 Occupancy。
+$`W_{\mathrm{active}}`$ 是每个 SM 的驻留 Warp 数，$`W_{\mathrm{max}}`$ 是架构允许的最大驻留 Warp 数。该比值可写成百分比；测量时需区分理论 Occupancy 与实际达到的 Occupancy。
 
 影响 Occupancy 的主要资源：
 
@@ -668,7 +668,7 @@ Matrix MMA
 D=AB+C.
 ```
 
-矩阵维度需匹配：$A\in\mathbb{R}^{M\times K}$、$B\in\mathbb{R}^{K\times N}$，$C$ 与 $D$ 的形状均为 $M\times N$；实际指令还受 Tile、dtype 和 Layout 约束。
+矩阵维度需匹配：$`A\in\mathbb{R}^{M\times K}`$、$`B\in\mathbb{R}^{K\times N}`$，$`C`$ 与 $`D`$ 的形状均为 $`M\times N`$；实际指令还受 Tile、dtype 和 Layout 约束。
 
 不是说 Tensor Core 会自动加速所有乘法。
 
@@ -740,11 +740,11 @@ Roofline 应该占右边较大位置。
 \mathrm{AI}=\frac{F}{B}.
 ```
 
-$F$ 是运算次数，$B$ 是所分析存储层级的传输字节数；AI 的单位为 FLOP/byte。使用 HBM Roofline 时，字节统计应对应 HBM。
+$`F`$ 是运算次数，$`B`$ 是所分析存储层级的传输字节数；AI 的单位为 FLOP/byte。使用 HBM Roofline 时，字节统计应对应 HBM。
 
 纵轴：
 
-计算吞吐 $P$，单位为 FLOP/s（常写为 TFLOP/s）。
+计算吞吐 $`P`$，单位为 FLOP/s（常写为 TFLOP/s）。
 
 上限：
 
@@ -752,7 +752,7 @@ $F$ 是运算次数，$B$ 是所分析存储层级的传输字节数；AI 的单
 P_{\mathrm{roof}}=\min\left(P_{\mathrm{peak}},\ \mathrm{AI}\cdot BW_{\mathrm{peak}}\right).
 ```
 
-$P_{\mathrm{roof}}$ 是简化 Roofline 模型给出的吞吐上限，$P_{\mathrm{peak}}$ 是匹配数据类型的峰值计算吞吐，$BW_{\mathrm{peak}}$ 是相应存储层级的峰值带宽；实际吞吐通常低于该上限。
+$`P_{\mathrm{roof}}`$ 是简化 Roofline 模型给出的吞吐上限，$`P_{\mathrm{peak}}`$ 是匹配数据类型的峰值计算吞吐，$`BW_{\mathrm{peak}}`$ 是相应存储层级的峰值带宽；实际吞吐通常低于该上限。
 
 图上两区域：
 
@@ -833,7 +833,7 @@ Low AI
 \mathrm{MFU}=\frac{F_{\mathrm{model}}/t}{P_{\mathrm{peak}}}.
 ```
 
-$F_{\mathrm{model}}$ 是选定范围内的模型有效运算次数，$t$ 是对应时间；多 GPU 时 $P_{\mathrm{peak}}$ 应使用对应设备的合计峰值，并声明 FLOPs 的计数口径。MFU 与单 Kernel 的硬件计算利用率需要区分。
+$`F_{\mathrm{model}}`$ 是选定范围内的模型有效运算次数，$`t`$ 是对应时间；多 GPU 时 $`P_{\mathrm{peak}}`$ 应使用对应设备的合计峰值，并声明 FLOPs 的计数口径。MFU 与单 Kernel 的硬件计算利用率需要区分。
 
 更适合：
 
@@ -848,7 +848,7 @@ Tensor Core
 \mathrm{MBU}=\frac{B_{\mathrm{HBM}}/t}{BW_{\mathrm{peak}}}.
 ```
 
-$B_{\mathrm{HBM}}$ 是测得的 HBM 传输字节数，$t$ 是同一统计范围的时间，$BW_{\mathrm{peak}}$ 是峰值 HBM 带宽。算法有效字节数与真实 HBM 流量可能不同。
+$`B_{\mathrm{HBM}}`$ 是测得的 HBM 传输字节数，$`t`$ 是同一统计范围的时间，$`BW_{\mathrm{peak}}`$ 是峰值 HBM 带宽。算法有效字节数与真实 HBM 流量可能不同。
 
 更适合：
 
@@ -1279,7 +1279,7 @@ Kernel +20%
 S_{\mathrm{total}}=\frac{1}{(1-p)+p/s}.
 ```
 
-$p$ 是优化部分占原始总耗时的比例，$s$ 是该部分自身的加速倍数，$S_{\mathrm{total}}$ 是整体加速倍数。这里假定其余部分耗时不变，不额外引入新的开销。
+$`p`$ 是优化部分占原始总耗时的比例，$`s`$ 是该部分自身的加速倍数，$`S_{\mathrm{total}}`$ 是整体加速倍数。这里假定其余部分耗时不变，不额外引入新的开销。
 
 > 为什么 microbenchmark 提升很大，E2E 几乎没变化。
 

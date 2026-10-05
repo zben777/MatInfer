@@ -10,7 +10,7 @@
 
 ## 头数与分组
 
-定义 Batch B、当前输入长度 S、隐藏维度 D、Query 头数 H_q、KV 头数 H_kv，以及每头维度 d_h。这里 Q/K/V 每头维度相同，且 H_q 能被 H_kv 整除：
+定义 Batch B、当前输入长度 S、隐藏维度 D、Query 头数 $`H_{q}`$、KV 头数 $`H_{kv}`$，以及每头维度 $`d_{h}`$。这里 Q/K/V 每头维度相同，且 $`H_{q}`$ 能被 $`H_{kv}`$ 整除：
 
 ```math
 g=H_q/H_{kv},\qquad
@@ -21,13 +21,13 @@ i=0,\ldots,H_q-1.
 g 是每个 KV 头对应的 Q 头数。连续分组映射下：
 
 ```math
-H_i=\operatorname{softmax}_{\mathrm{row}}
+H_i=\mathrm{softmax}_{\mathrm{row}}
 \left(\frac{Q_iK_{j(i)}^T}{\sqrt{d_h}}+M\right)V_{j(i)}.
 ```
 
-例如 H_q = 8、H_kv = 2，g = 4：Q 头 0–3 对应 KV 头 0，Q 头 4–7 对应 KV 头 1。它们共享 Key/Value，但由于 Query 不同，Attention 权重与输出通常不同。
+例如 $`H_{q}`$ = 8、$`H_{kv}`$ = 2，g = 4：Q 头 0–3 对应 KV 头 0，Q 头 4–7 对应 KV 头 1。它们共享 Key/Value，但由于 Query 不同，Attention 权重与输出通常不同。
 
-H_kv = H_q 时退化为 MHA；H_kv = 1 时为 MQA。原始设计与质量/速度研究参见 [GQA 论文](https://aclanthology.org/2023.emnlp-main.298/)。共享输入不要求各 Q 头串行执行，具体依赖边界见 [MHA 各头是否独立](mha-head-independence.md)。
+$`H_{kv}`$ = $`H_{q}`$ 时退化为 MHA；$`H_{kv}`$ = 1 时为 MQA。原始设计与质量/速度研究参见 [GQA 论文](https://aclanthology.org/2023.emnlp-main.298/)。共享输入不要求各 Q 头串行执行，具体依赖边界见 [MHA 各头是否独立](mha-head-independence.md)。
 
 ## 逐步对应用户代码
 
@@ -59,7 +59,7 @@ out = torch.matmul(attn, v)
 
 这段分组和矩阵乘逻辑正确，能解释 GQA。需要补充四个条件：
 
-1. 原类初始化漏掉了 `super().__init__()`，需要在创建子模块之前补上，否则无法正常实例化。头数和维度还必须为正，H_q 必须能被 H_kv 整除。
+1. 原类初始化漏掉了 `super().__init__()`，需要在创建子模块之前补上，否则无法正常实例化。头数和维度还必须为正，$`H_{q}`$ 必须能被 $`H_{kv}`$ 整除。
 2. 没有因果 Mask 时，序列位置可以读取未来 Token；这在双向注意力中合法，在自回归模型中不合适。
 3. 没有 `past_key_value` 时，不是利用缓存的增量 Decode。
 4. 显式 repeat 增加临时 KV 数据，不是高效 GQA Backend 的必要步骤。
@@ -68,14 +68,14 @@ out = torch.matmul(attn, v)
 
 没有历史缓存时，位置 q 只能看到 Key 位置 k ≤ q。用负无穷屏蔽未来分数，且必须在 Softmax 前进行。
 
-有长度 T_p 的历史缓存、当前输入包含 S 个新 Token 时：
+有长度 $`T_{p}`$ 的历史缓存、当前输入包含 S 个新 Token 时：
 
 ```math
 \begin{aligned}
 T_k&=T_p+S,\qquad
 Q\in\mathbb{R}^{B\times H_q\times S\times d_h},\\
 K,V&\in\mathbb{R}^{B\times H_{kv}\times T_k\times d_h},\\
-\operatorname{allowed}(q,k)&\iff k\leq T_p+q,
+\mathrm{allowed}(q,k)&\iff k\leq T_p+q,
 \quad q=0,\ldots,S-1.
 \end{aligned}
 ```
@@ -91,10 +91,10 @@ K,V&\in\mathbb{R}^{B\times H_{kv}\times T_k\times d_h},\\
 历史缓存保留 `[B, Hkv, T, dh]`，而不是 repeat 后的 `[B, Hq, T, dh]`。对于 K/V dtype 相同、每个元素 b 字节的单层缓存：
 
 ```math
-\operatorname{KVBytes}=2BTH_{kv}d_hb.
+\mathrm{KVBytes}=2BTH_{kv}d_hb.
 ```
 
-固定 B、T、d_h、dtype 和 Q 头数时，相比 MHA 的理想缓存大小比例为 H_kv/H_q。比如 8 个 Q 头、2 个 KV 头，是相应 MHA 的 1/4；不包含分页元数据、分配粒度、量化元信息或其他 Buffer。
+固定 B、T、$`d_{h}`$、dtype 和 Q 头数时，相比 MHA 的理想缓存大小比例为 $`H_{kv}`$/$`H_{q}`$。比如 8 个 Q 头、2 个 KV 头，是相应 MHA 的 1/4；不包含分页元数据、分配粒度、量化元信息或其他 Buffer。
 
 用户原代码的 repeat 是为了清楚呈现数学对应。高效实现可以直接索引/广播共享 KV，并在合适的工作划分中复用它，不必先物化全部重复副本。保留 Q 头数也意味着分数和输出头数不自动减少：KV 缓存缩小四倍，不代表 Attention FLOPs 或端到端延迟缩小四倍。
 

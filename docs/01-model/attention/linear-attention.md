@@ -12,7 +12,7 @@ Linear Attention 中文是“线性注意力”，“线程注意力”容易与
 
 ## 从 4096 × 4096 分数矩阵说起
 
-单头、忽略 Batch，令 N = 4096，d_k = d_v = 128：
+单头、忽略 Batch，令 N = 4096，$`d_{k}`$ = $`d_{v}`$ = 128：
 
 ```math
 \begin{aligned}
@@ -20,14 +20,14 @@ Q,K&\in\mathbb{R}^{4096\times128},\quad
 V\in\mathbb{R}^{4096\times128},\\
 QK^T&:\ (4096\times128)(128\times4096)
 \longrightarrow4096\times4096,\\
-O&=\operatorname{softmax}_{\mathrm{row}}
+O&=\mathrm{softmax}_{\mathrm{row}}
 \left(QK^T/\sqrt{128}+M\right)V.
 \end{aligned}
 ```
 
 所以不是“两个 4096 × 128 直接相乘”，而是第二个矩阵先转置。完整分数矩阵有 16,777,216 个元素；若以 FP16 显式保存，需要 32 MiB。这只是一个单头分数矩阵，不包含其他头、Batch、概率矩阵和缓存。
 
-密集标准 Attention 的交互计算约为 O(N²(d_k + d_v))。朴素实现会保存 N × N 中间矩阵，但精确 Attention 不必在外部显存完整保存它：[FlashAttention](https://arxiv.org/abs/2205.14135)通过分块和在线归一化减少 IO，基础密集算法的交互计算仍然是二次规模。
+密集标准 Attention 的交互计算约为 O(N²($`d_{k}`$ + $`d_{v}`$))。朴素实现会保存 N × N 中间矩阵，但精确 Attention 不必在外部显存完整保存它：[FlashAttention](https://arxiv.org/abs/2205.14135)通过分块和在线归一化减少 IO，基础密集算法的交互计算仍然是二次规模。
 
 ## 为什么不能直接写成 Q(KᵀV)？
 
@@ -40,7 +40,7 @@ O&=\operatorname{softmax}_{\mathrm{row}}
 但标准 Attention 是对整个分数矩阵逐行取 Softmax，通常不满足：
 
 ```math
-\operatorname{softmax}_{\mathrm{row}}(QK^T)V
+\mathrm{softmax}_{\mathrm{row}}(QK^T)V
 \ne Q(K^TV).
 ```
 
@@ -48,11 +48,11 @@ Softmax 包含指数变换和行归一化，不能直接跨过矩阵乘法移到
 
 ## 特征映射与归一化
 
-下面从一般归一化相似度自行展开形状。令 q_i、k_j 为列向量，v_j 为 d_v 维列向量，映射 φ 将 Q/K 特征变为 r 维。假设产生非负相似度且分母为正：
+下面从一般归一化相似度自行展开形状。令 $`q_{i}`$、$`k_{j}`$ 为列向量，$`v_{j}`$ 为 $`d_{v}`$ 维列向量，映射 φ 将 Q/K 特征变为 r 维。假设产生非负相似度且分母为正：
 
 ```math
 \begin{aligned}
-\operatorname{sim}(q_i,k_j)
+\mathrm{sim}(q_i,k_j)
 &=\phi(q_i)^T\phi(k_j),\qquad
 \phi(q_i),\phi(k_j)\in\mathbb{R}^{r},\\
 o_i&=\frac{\sum_j\phi(q_i)^T\phi(k_j)v_j}
@@ -89,20 +89,20 @@ o_t&=\frac{S_t^T\phi(q_t)}
 \end{aligned}
 ```
 
-S_0 和 z_0 初始化为零。每个 Batch、每层、每个相应头都需要自己的状态；“固定大小”不是整张模型只保留一个矩阵。Prefill 若直接用全序列总状态计算所有位置，就会读到未来信息，必须计算各位置的前缀状态或使用等价的因果扫描。
+$`S_{0}`$ 和 $`z_{0}`$ 初始化为零。每个 Batch、每层、每个相应头都需要自己的状态；“固定大小”不是整张模型只保留一个矩阵。Prefill 若直接用全序列总状态计算所有位置，就会读到未来信息，必须计算各位置的前缀状态或使用等价的因果扫描。
 
 ## 复杂度与状态大小
 
-以下省略 Batch、头数和层数，不包括输入/输出 Linear，忽略特征映射自身的成本，令 r、d_k、d_v 固定：
+以下省略 Batch、头数和层数，不包括输入/输出 Linear，忽略特征映射自身的成本，令 r、$`d_{k}`$、$`d_{v}`$ 固定：
 
 | 项目 | 标准密集因果 Attention | 基础核 Linear Attention |
 | --- | --- | --- |
-| 全序列交互计算 | O(N²(d_k + d_v)) | O(N r d_v) |
-| 历史长度 t 的单 Token Decode | O(t(d_k + d_v)) | O(r d_v) |
-| Decode 历史状态 | O(t(d_k + d_v)) | O(r d_v + r) |
+| 全序列交互计算 | O(N²($`d_{k}`$ + $`d_{v}`$)) | O(N r $`d_{v}`$) |
+| 历史长度 t 的单 Token Decode | O(t($`d_{k}`$ + $`d_{v}`$)) | O(r $`d_{v}`$) |
+| Decode 历史状态 | O(t($`d_{k}`$ + $`d_{v}`$)) | O(r $`d_{v}`$ + r) |
 | 是否保存每个历史 Token 的 K/V | 是，可能压缩或量化 | 基础递推不需要 |
 
-例如 r = d_v = 128，S 有 16384 个元素，z 有 128 个元素；若状态用 FP32，合计约 64.5 KiB/头。标准单头长度 4096、K/V 都为 128 维、FP16 缓存约 2 MiB。这里是两种明确 dtype 下的存储量对比，不是质量相同或性能提升比例的证明。
+例如 r = $`d_{v}`$ = 128，S 有 16384 个元素，z 有 128 个元素；若状态用 FP32，合计约 64.5 KiB/头。标准单头长度 4096、K/V 都为 128 维、FP16 缓存约 2 MiB。这里是两种明确 dtype 下的存储量对比，不是质量相同或性能提升比例的证明。
 
 如果 r 随精度要求或序列长度增长，或者变体还保存局部窗口缓存，就不能照搬“状态与序列长度完全无关”的结论。训练或批量 Prefill 的中间激活、输出、扫描实现也会占据额外内存。
 
@@ -127,7 +127,7 @@ S_0 和 z_0 初始化为零。每个 Batch、每层、每个相应头都需要�
 ## 面试与自测
 
 1. **为什么不能把 Softmax Attention 直接改成 Q(KᵀV)？** Softmax 非线性和行归一化不能跨过乘法；需要核分解，并单独维护分母。
-2. **固定状态是什么？** 对基础形式是 S_t 和 z_t，大小由 r、d_v 决定，按层、头、请求维护。
+2. **固定状态是什么？** 对基础形式是 $`S_{t}`$ 和 $`z_{t}`$，大小由 r、$`d_{v}`$ 决定，按层、头、请求维护。
 3. **标准 Decode 每步也是 O(N²) 吗？** 不是。缓存已有 K/V 后，单个 Query 对历史的交互是 O(N)；全序列交互才是 O(N²)。
 4. **FlashAttention 是否将密集 Attention 计算变成 O(N)？** 没有；减少中间存储与 IO，不等于改变密集交互的阶数。
 5. **状态固定为什么仍需验证性能？** 状态流量、精度、更新成本、并行粒度与模型质量都会影响收益。

@@ -10,6 +10,14 @@
 
 从直觉进入公式，说明符号、Tensor Shape、数据流与适用条件。
 
+公式排版：块公式使用 `math` 围栏，行内公式使用带反引号的美元符号语法，例如：
+
+```text
+头维度为 $`d_h`$。
+```
+
+函数名使用 `\mathrm{softmax}` 等 GitHub 可显示的写法，避免使用当前被 GitHub 禁止的 `\operatorname`。发布前需检查 GitHub 页面实际渲染；本地 LaTeX / MathJax 解析成功不能代替这一步。
+
 ## 实现与取舍
 
 关联框架、算子和 Backend；说明收益、代价与不适用场景。

@@ -150,7 +150,7 @@ Elementwise
 C_{M\times N}=A_{M\times K}B_{K\times N}.
 ```
 
-将矩阵维度 $M$、$N$、$K$ 与 LLM 的计算对应起来。
+将矩阵维度 $`M`$、$`N`$、$`K`$ 与 LLM 的计算对应起来。
 
 例如 Linear：
 
@@ -228,12 +228,12 @@ Attention 的算子框可以直接写：
 ```math
 \begin{aligned}
 S &= \frac{QK^{\mathsf T}}{\sqrt{d_k}}, \\
-P &= \operatorname{softmax}_{\mathrm{row}}(S), \\
+P &= \mathrm{softmax}_{\mathrm{row}}(S), \\
 O &= PV.
 \end{aligned}
 ```
 
-这里 $Q\in\mathbb{R}^{L_q\times d_k}$、$K\in\mathbb{R}^{L_{kv}\times d_k}$、$V\in\mathbb{R}^{L_{kv}\times d_v}$，因此 $O\in\mathbb{R}^{L_q\times d_v}$。这是单个 Attention head 的简化表示，Softmax 沿 key 序列维计算；因果或 Padding Mask 应在 Softmax 前应用。
+这里 $`Q\in\mathbb{R}^{L_q\times d_k}`$、$`K\in\mathbb{R}^{L_{kv}\times d_k}`$、$`V\in\mathbb{R}^{L_{kv}\times d_v}`$，因此 $`O\in\mathbb{R}^{L_q\times d_v}`$。这是单个 Attention head 的简化表示，Softmax 沿 key 序列维计算；因果或 Padding Mask 应在 Softmax 前应用。
 
 但是这里必须强调：
 
@@ -302,7 +302,7 @@ p_i &= \frac{\exp(x_i-m)}{\ell}, \qquad i=1,\ldots,n.
 \end{aligned}
 ```
 
-$x_i$ 是输入分数，$m$ 是行最大值，$\ell$ 是归一化分母，$p_i$ 是输出概率。用 $\ell$ 代替字母 l，避免与数字 1 混淆。
+$`x_i`$ 是输入分数，$`m`$ 是行最大值，$`\ell`$ 是归一化分母，$`p_i`$ 是输出概率。用 $`\ell`$ 代替字母 l，避免与数字 1 混淆。
 
 问题：
 
@@ -325,7 +325,7 @@ m_t &= \max(m_{t-1},x_t), \\
 \end{aligned}
 ```
 
-这是逐元素递推的概念形式，初始化 $m_1=x_1$、$\ell_1=1$。处理完整行后，$m_n$ 与 $\ell_n$ 等价于稳定 Softmax 的最大值和分母；分块实现还需要块级状态合并。在 FlashAttention 中还要同步维护加权输出累积，不能只用这两个标量直接得到 Attention 输出。
+这是逐元素递推的概念形式，初始化 $`m_1=x_1`$、$`\ell_1=1`$。处理完整行后，$`m_n`$ 与 $`\ell_n`$ 等价于稳定 Softmax 的最大值和分母；分块实现还需要块级状态合并。在 FlashAttention 中还要同步维护加权输出累积，不能只用这两个标量直接得到 Attention 输出。
 
 > **核心意义：支持流式 / 分块处理，不需要保存完整 Score Matrix。**
 
@@ -425,7 +425,7 @@ RMSNorm：
 y_i=\gamma_i\frac{x_i}{\sqrt{\frac{1}{n}\sum_{j=1}^{n}x_j^2+\epsilon}},\qquad i=1,\ldots,n.
 ```
 
-$n$ 是当前归一化维度；这里使用 $n$，避免与 GEMM 的矩阵维度 $N$ 混淆。
+$`n`$ 是当前归一化维度；这里使用 $`n`$，避免与 GEMM 的矩阵维度 $`N`$ 混淆。
 
 ```text
 Load x
@@ -752,7 +752,7 @@ Arithmetic Intensity
 U_{\mathrm{compute}}=\frac{F/t}{P_{\mathrm{peak}}}.
 ```
 
-$F$ 是选定统计范围内的运算次数，$t$ 是运行时间，$P_{\mathrm{peak}}$ 是匹配精度与设备的峰值计算吞吐，单位均按 FLOP/s 对齐。
+$`F`$ 是选定统计范围内的运算次数，$`t`$ 是运行时间，$`P_{\mathrm{peak}}`$ 是匹配精度与设备的峰值计算吞吐，单位均按 FLOP/s 对齐。
 
 Memory Bound 算子：
 
@@ -760,7 +760,7 @@ Memory Bound 算子：
 \mathrm{MBU}=\frac{B_{\mathrm{HBM}}/t}{BW_{\mathrm{peak}}}.
 ```
 
-$B_{\mathrm{HBM}}$ 是实际 HBM 传输字节数，$BW_{\mathrm{peak}}$ 是峰值 HBM 带宽。若只用算法输入输出字节估算，应标为有效带宽，不能直接当作实测 HBM 利用率。
+$`B_{\mathrm{HBM}}`$ 是实际 HBM 传输字节数，$`BW_{\mathrm{peak}}`$ 是峰值 HBM 带宽。若只用算法输入输出字节估算，应标为有效带宽，不能直接当作实测 HBM 利用率。
 
 ---
 
@@ -768,9 +768,9 @@ $B_{\mathrm{HBM}}$ 是实际 HBM 传输字节数，$BW_{\mathrm{peak}}$ 是峰�
 
 ## 面试与自测问题
 
-1. GEMM 的 $M$、$N$、$K$ 分别代表什么？
-2. 为什么小 $M$ GEMM 效率差？
-3. 为什么 $K$ 很小时 Tensor Core 利用率可能低？
+1. GEMM 的 $`M`$、$`N`$、$`K`$ 分别代表什么？
+2. 为什么小 $`M`$ GEMM 效率差？
+3. 为什么 $`K`$ 很小时 Tensor Core 利用率可能低？
 4. Softmax 和 Online Softmax 有什么区别？
 5. FlashAttention 为什么减少 HBM 访问？
 6. Decode Attention 为什么常常 memory-bound？

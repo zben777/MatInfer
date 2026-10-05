@@ -137,11 +137,11 @@ MoE Layer   → DeepSeekMoE
 ```math
 \begin{aligned}
 r(x) &= \sqrt{\frac{1}{n}\sum_{j=1}^{n}x_j^2+\epsilon}, \\
-y_i &= \operatorname{RMSNorm}(x)_i = \gamma_i\frac{x_i}{r(x)}.
+y_i &= \mathrm{RMSNorm}(x)_i = \gamma_i\frac{x_i}{r(x)}.
 \end{aligned}
 ```
 
-其中，$n$ 是归一化维度，$\gamma_i$ 是可学习的逐元素缩放参数，$\epsilon>0$ 用于数值稳定。
+其中，$`n`$ 是归一化维度，$`\gamma_i`$ 是可学习的逐元素缩放参数，$`\epsilon>0`$ 用于数值稳定。
 
 ```text
 ① 不计算 mean
@@ -260,12 +260,12 @@ KV Latent
 ```math
 \begin{aligned}
 S &= \frac{QK^{\mathsf T}}{\sqrt{d_k}}, \\
-P &= \operatorname{softmax}_{\mathrm{row}}(S), \\
+P &= \mathrm{softmax}_{\mathrm{row}}(S), \\
 O &= PV.
 \end{aligned}
 ```
 
-这里 $Q\in\mathbb{R}^{L_q\times d_k}$、$K\in\mathbb{R}^{L_{kv}\times d_k}$、$V\in\mathbb{R}^{L_{kv}\times d_v}$，因此 $O\in\mathbb{R}^{L_q\times d_v}$。这是单个 Attention head 的简化表示，Softmax 沿 key 序列维计算；因果或 Padding Mask 应在 Softmax 前应用。
+这里 $`Q\in\mathbb{R}^{L_q\times d_k}`$、$`K\in\mathbb{R}^{L_{kv}\times d_k}`$、$`V\in\mathbb{R}^{L_{kv}\times d_v}`$，因此 $`O\in\mathbb{R}^{L_q\times d_v}`$。这是单个 Attention head 的简化表示，Softmax 沿 key 序列维计算；因果或 Padding Mask 应在 Softmax 前应用。
 
 分为两个阶段：
 
@@ -384,7 +384,7 @@ x_{p,2i+1}
 \end{bmatrix}.
 ```
 
-$p$ 表示 Token 位置，$i$ 表示维度对，$\theta_{p,i}$ 是该位置与维度对对应的旋转角。上式采用相邻维度配对的概念表示；实际配对 Layout 与频率缩放方式需结合模型实现确认。
+$`p`$ 表示 Token 位置，$`i`$ 表示维度对，$`\theta_{p,i}`$ 是该位置与维度对对应的旋转角。上式采用相邻维度配对的概念表示；实际配对 Layout 与频率缩放方式需结合模型实现确认。
 
 ```text
 RoPE 作用：
