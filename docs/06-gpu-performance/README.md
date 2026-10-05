@@ -12,6 +12,7 @@
 
 ## 内容索引
 
+- [RTX 4090：硬件参数与峰值算力口径](hardware/rtx-4090.md)
 - [一条 GPU 指令到底经历什么](#section-01)
 - [一个 SM 里面有什么](#section-02)
 - [Warp Scheduler：为什么 GPU 能隐藏延迟](#section-03)
