@@ -12,6 +12,8 @@
 
 ## 内容索引
 
+- [异步搬运与多阶段流水线专题：Ampere、Hopper、Blackwell](pipeline/README.md)
+
 - [跨层专题：算子融合的工具选择、实现约束与验证](../03-operators/fusion/operator-fusion.md#3-实现手段编译器融合与手写-kernel)
 
 - [写一个 Kernel 到底经历什么](#section-01)
@@ -856,6 +858,8 @@ CUTLASS Kernel
 
 ## Tensor Core：WMMA / MMA / CuTe 的区别
 
+[深入专题：矩阵计算与搬运怎样重叠，缓冲区何时可复用](pipeline/mma-memory-pipeline.md)。
+
 这一块很适合面试。
 
 高层：
@@ -914,6 +918,8 @@ WMMA / CUTLASS / CuTe / Triton tl.dot
 <a id="section-19"></a>
 
 ## TMA
+
+[深入专题：矩阵计算与搬运怎样重叠，缓冲区何时可复用](pipeline/mma-memory-pipeline.md)。
 
 传统：
 
@@ -1008,6 +1014,8 @@ TMA
 
 ## Producer–Consumer
 
+[深入专题：矩阵计算与搬运怎样重叠，缓冲区何时可复用](pipeline/mma-memory-pipeline.md)。
+
 这一块正好把 TMA、MMA、barrier 串起来。
 
 ```text
@@ -1081,6 +1089,8 @@ __syncthreads()
 <a id="section-23"></a>
 
 ## Double Buffer / Multi-Stage Pipeline
+
+[深入专题：矩阵计算与搬运怎样重叠，缓冲区何时可复用](pipeline/mma-memory-pipeline.md)。
 
 经典双缓冲：
 

@@ -415,6 +415,8 @@ MMA
 
 ## Producer–Consumer Pipeline
 
+[指令与同步层解释：从 Ampere 到 Blackwell 的多阶段流水线](../05-kernel-engineering/pipeline/mma-memory-pipeline.md)。
+
 这一块可以开始为 Hopper / TMA 铺垫。
 
 ```text

@@ -91,8 +91,8 @@
 9. Triton 和 CUDA 的编程模型有什么区别？
 10. Triton Layout 是什么？
 11. CUTLASS 和 CuTe 是什么关系？
-12. `cp.async` 和 TMA 有什么区别？
-13. Producer–Consumer Pipeline 为什么能加速？
+12. [`cp.async` 和 TMA 有什么区别？](../docs/05-kernel-engineering/pipeline/mma-memory-pipeline.md)
+13. [Producer–Consumer Pipeline 为什么能加速？什么时候可以释放缓冲区？](../docs/05-kernel-engineering/pipeline/mma-memory-pipeline.md)
 14. 为什么同一个 Kernel 对不同 Shape 最优配置不同？
 
 ## GPU 硬件与性能分析
