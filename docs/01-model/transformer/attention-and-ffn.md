@@ -6,10 +6,6 @@
 
 ## 1. 先固定一次 decode 的场景
 
-![单 token decode 中当前 Query 读取历史与当前 KV，随后只有当前表示进入 FFN](../../../assets/images/transformer/attention-ffn-roles.svg)
-
-*图 1　历史三个位置的 K/V 已缓存，当前位置产生一组新的 K/V。Attention 聚合四个可见位置的 Value，输出当前 token 的表示，再送入 FFN。图中省略多头、Norm、残差及输出投影。*
-
 > 假设当前处理的是位置 4：位置 1～3 的 K/V 已经保存在**这一层自己的缓存**中。隐藏维度 d＝512，标准 MHA 有 8 个头，每头维度 dₕ＝64。当前输入形状是 `[1, 512]`；省略批次后，每个头的 Query 是 `[1, 64]`，加入当前位置后可读的 K/V 是 `[4, 64]`。
 
 > 一次 decode 可以按以下顺序理解：
@@ -80,10 +76,6 @@ A_t=\mathrm{Softmax}\left(\frac{Q_tK_{\le t}^{\mathsf T}}{\sqrt{d_h}}+M_t\right)
 > 本例 decode 每头的 Query 长度是 1，逻辑权重形状是 `[1, T]`。prefill 中已知输入有多个 Query 位置，整段因果自注意力的逻辑权重可为 `[S, S]`，多个位置可以一起计算。这里说的是数学形状；FlashAttention 等实现不必在显存中物化完整权重矩阵。
 
 ## 3. FFN（前馈网络）
-
-![单 token decode 的基础 FFN 与 SwiGLU，输入和输出均只有当前 token 一行](../../../assets/images/transformer/ffn-and-swiglu.svg)
-
-*图 2　基础 FFN 与 SwiGLU 都只处理当前 token 的特征。中间宽度 m 根据模型配置确定，两种结构的 m 不必相同。*
 
 ### 具体做什么
 
