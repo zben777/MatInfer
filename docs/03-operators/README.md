@@ -12,6 +12,8 @@
 
 ## 内容索引
 
+- [算子融合深入专题：Decode 场景、访存估算、工具链与面试案例](fusion/README.md)
+
 - [一个 Transformer Block 最终被拆成哪些算子](#section-01)
 - [算子分类](#section-02)
 - [第一类：GEMM —— 大模型真正的计算核心](#section-03)
@@ -582,6 +584,8 @@ CTA 根据 metadata
 <a id="section-14"></a>
 
 ## Fusion 
+
+[完整专题：算子融合的动机、场景、实现与验证](fusion/operator-fusion.md)。
 
 ```text
 GEMM

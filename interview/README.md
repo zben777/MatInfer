@@ -55,7 +55,7 @@
 5. FlashAttention 为什么减少 HBM 访问？
 6. Decode Attention 为什么常常 memory-bound？
 7. RMSNorm 为什么通常偏 memory-bound？
-8. Fusion 为什么能提升性能？
+8. [Fusion 为什么能提升性能？做过哪些融合工作，怎样验证？](../docs/03-operators/fusion/operator-fusion.md)
 9. Grouped GEMM 为什么适合 MoE？
 10. 怎么判断一个算子是 compute-bound 还是 memory-bound？
 

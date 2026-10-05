@@ -12,6 +12,8 @@
 
 ## 内容索引
 
+- [跨层专题：算子融合的工具选择、实现约束与验证](../03-operators/fusion/operator-fusion.md#3-实现手段编译器融合与手写-kernel)
+
 - [写一个 Kernel 到底经历什么](#section-01)
 - [CUDA 执行层级](#section-02)
 - [CUDA C++：最底层控制](#section-03)
