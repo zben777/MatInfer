@@ -38,8 +38,8 @@ Q_t=z_tW_Q,\qquad K_t=z_tW_K,\qquad V_t=z_tW_V.
 > 对一个头，把当前 Key/Value 与历史数据沿序列维组合：
 
 ```math
-K_{\le t}=\mathrm{Concat}(K_{<t},K_t),\qquad
-V_{\le t}=\mathrm{Concat}(V_{<t},V_t).
+K_{\le t}=\mathrm{Concat}(K_{\lt t},K_t),\qquad
+V_{\le t}=\mathrm{Concat}(V_{\lt t},V_t).
 ```
 
 > 再计算这个头的权重与输出：

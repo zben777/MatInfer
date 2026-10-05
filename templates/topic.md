@@ -23,7 +23,7 @@
 头维度为 $`d_h`$。
 ```
 
-函数名使用 `\mathrm{softmax}` 等 GitHub 可显示的写法，避免使用当前被 GitHub 禁止的 `\operatorname`。发布前需检查 GitHub 页面实际渲染；本地 LaTeX / MathJax 解析成功不能代替这一步。
+函数名使用 `\mathrm{softmax}` 等 GitHub 可显示的写法，避免使用当前被 GitHub 禁止的 `\operatorname`。公式中的小于号、大于号优先写为 `\lt`、`\gt`，避免原始字符与页面解析冲突。发布前需等待 GitHub 数学渲染完成，检查每个公式的渲染结果与错误提示；仅统计公式块数量、本地 LaTeX / MathJax 解析成功都不能代替这一步。
 
 ## 实现与取舍
 
