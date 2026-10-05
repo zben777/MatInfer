@@ -18,6 +18,8 @@
 
 [对应内容与题目](../docs/01-model/README.md#section-11)
 
+已展开的专题自测：[MHA 各头独立性](../docs/01-model/attention/mha-head-independence.md#面试与自测) · [Linear Attention](../docs/01-model/attention/linear-attention.md#面试与自测) · [手写 GQA](../docs/01-model/attention/gqa-from-scratch.md#面试与自测)。这些是新增专题练习，不计入下方原稿的 70 道题。
+
 1. **一个 Transformer Block 的完整流程是什么？**
 2. **为什么使用 RMSNorm？**
 3. **MHA、MQA、GQA、MLA 有什么区别？**

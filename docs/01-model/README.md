@@ -12,6 +12,7 @@
 
 ## 内容索引
 
+- [Attention 细分专题：MHA 独立性、Linear Attention、手写 GQA](attention/README.md)
 - [Token 主流程](#section-01)
 - [DeepSeek Transformer Block](#section-02)
 - [RMSNorm](#section-03)
