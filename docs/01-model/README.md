@@ -12,6 +12,8 @@
 
 ## 内容索引
 
+- [Transformer 基础：Attention 与 FFN 的分工](transformer/README.md)
+
 - [归一化专题：LayerNorm 与 RMSNorm 的图解和推导](normalization/README.md)
 
 - [Attention 细分专题：MHA 独立性、Linear Attention、手写 GQA](attention/README.md)
