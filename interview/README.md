@@ -51,8 +51,8 @@
 1. GEMM 的 $`M`$、$`N`$、$`K`$ 分别代表什么？
 2. 为什么小 $`M`$ GEMM 效率差？
 3. 为什么 $`K`$ 很小时 Tensor Core 利用率可能低？
-4. Softmax 和 Online Softmax 有什么区别？
-5. FlashAttention 为什么减少 HBM 访问？
+4. [Softmax 和 Online Softmax 有什么区别？](../docs/03-operators/attention/online-softmax.md)
+5. [FlashAttention 为什么减少 HBM 访问？](../docs/04-backends/attention/flashattention-evolution.md)
 6. Decode Attention 为什么常常 memory-bound？
 7. RMSNorm 为什么通常偏 memory-bound？
 8. [Fusion 为什么能提升性能？做过哪些融合工作，怎样验证？](../docs/03-operators/fusion/operator-fusion.md)
@@ -63,8 +63,8 @@
 
 [对应内容与题目](../docs/04-backends/README.md#section-23)
 
-1. FlashAttention 为什么快？
-2. Online Softmax 在 FlashAttention 里的作用是什么？
+1. [FlashAttention 为什么快？v1 / v2 / v3 分别改变了什么？](../docs/04-backends/attention/flashattention-evolution.md)
+2. [Online Softmax 在 FlashAttention 里的作用是什么？](../docs/03-operators/attention/online-softmax.md)
 3. FlashMLA 和 FlashAttention 有什么关系？
 4. Decode Attention 为什么需要 Split-KV？
 5. GEMM 为什么需要 Tiling？

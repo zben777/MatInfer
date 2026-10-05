@@ -12,6 +12,8 @@
 
 ## 内容索引
 
+- [Attention 深入专题：Online Softmax 推导与分块参考实现](attention/README.md)
+
 - [算子融合深入专题：Decode 场景、访存估算、工具链与面试案例](fusion/README.md)
 
 - [一个 Transformer Block 最终被拆成哪些算子](#section-01)
@@ -293,6 +295,8 @@ FlashAttention
 <a id="section-07"></a>
 
 ## Softmax → Online Softmax
+
+> 详细推导与例子：[Online Softmax：Decode 怎样分块计算 Attention？](attention/online-softmax.md)。
 
 普通稳定 Softmax：
 

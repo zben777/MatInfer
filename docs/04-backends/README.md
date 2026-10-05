@@ -12,6 +12,8 @@
 
 ## 内容索引
 
+- [Attention Backend 深入专题：FlashAttention v1 / v2 / v3](attention/README.md)
+
 - [一个算子是怎样变成高性能 Kernel 的](#section-01)
 - [FlashAttention](#section-02)
 - [FlashAttention 的 Kernel 视角](#section-03)
@@ -107,6 +109,8 @@ Kernel Output
 <a id="section-02"></a>
 
 ## FlashAttention
+
+> 版本比较与伪代码：[FlashAttention v1 / v2 / v3：数据流、并行与异步流水](attention/flashattention-evolution.md)。
 
 这一块不能只写“减少 HBM IO”。
 
