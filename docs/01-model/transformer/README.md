@@ -4,6 +4,6 @@
 
 | 专题 | 核心问题 |
 | --- | --- |
-| [Attention 与 FFN：Transformer 的两个子层怎样分工](attention-and-ffn.md) | 什么是跨位置聚合与逐位置变换？公式、门控和参数量怎样理解？ |
+| [Decode 中的 Attention 与 FFN：生成下一个 token 时怎样分工](attention-and-ffn.md) | 一次 decode 怎样读取历史 KV、处理当前表示？公式、门控和参数量怎样理解？ |
 
 [Attention 深入专题](../attention/README.md) · [归一化深入专题](../normalization/README.md) · [返回模型原理](../README.md)
