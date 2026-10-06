@@ -296,7 +296,7 @@ FlashAttention
 
 ## Softmax → Online Softmax
 
-> 详细推导与例子：[Online Softmax：Decode 怎样分块计算 Attention？](attention/online-softmax.md)。
+> 详细推导与例子：[Online Softmax：怎样分块计算，又得到完整的 Attention 结果？](attention/online-softmax.md)。
 
 普通稳定 Softmax：
 
