@@ -5,3 +5,39 @@
 原稿中的外部图片链接继续保留在[总览](../docs/00-overview/README.md)。
 
 后续为知识图保留可编辑图源，并从所属专题链接到导出的图片。每张图说明范围、简化条件和来源；需要重新使用外部图片时核对作者与授权。六层 ASCII 图目前作为布局草案保存。
+
+## 专题图源
+
+`images/normalization/` 由 `tools/generate_norm_figures.py` 生成。
+
+`images/attention/` 由 `tools/generate_attention_figures.py` 生成，供 [Online Softmax 专题](../docs/03-operators/attention/online-softmax.md)使用：
+
+| 文件 | 内容 |
+| --- | --- |
+| `01-memory-access.svg` | Safe Softmax 的三遍读取与 online normalizer 的一遍读取 |
+| `02-rebase-scaling.svg` | 换基准时每个指数项乘同一个系数，比值不变 |
+| `03-block-merge.svg` | 三块合并的局部状态、α / β 缩放对象，以及漏缩放的后果 |
+| `04-associativity.svg` | 顺序合并与结合律允许的分组并行合并 |
+| `05-online-algorithm-shape.svg` | Softmax 与 Welford 在线方差的修正项同构 |
+| `06-merge-animation.svg` | 五帧动画（CSS 关键帧循环播放，需由页面内联或 `<img>` 加载） |
+
+两个生成脚本均只依赖 Python 标准库，可重新生成：`python3 tools/generate_attention_figures.py`。
+
+图内数字与专题正文一致（O = 5、ℓ = 2.5、U = 12.5、41/9、3.25、修正项 154.7 占 95.7%）。改动正文数字时须同步改脚本并重新生成。
+
+## 阅读页
+
+`.md` 里的插图用相对路径引用 SVG，GitHub 和多数编辑器可以直接显示，但部分预览器会拦掉本地 SVG，动画也停在第一帧。因此每个配图专题额外产出一份自包含的 HTML 阅读页：
+
+| 阅读页 | 对应正文 |
+| --- | --- |
+| `docs/normalization.html` | `docs/01-model/normalization/layernorm-rmsnorm.md` |
+| `docs/03-operators/attention/online-softmax.html` | `docs/03-operators/attention/online-softmax.md` |
+
+阅读页由 `tools/build_reading_page.mjs` 生成，产物内联全部插图（base64 SVG）并用 MathJax 把公式渲染成内联 SVG，**不依赖任何外部资源，离线可看，插图动画正常播放**。正文改动后重新生成：
+
+```
+node tools/build_reading_page.mjs docs/03-operators/attention/online-softmax.md
+```
+
+依赖 `mathjax-full`，装在隔离的 Node 工作区，不污染本机。图源仍是 `images/` 下的 SVG —— 阅读页只是呈现层，改图请改脚本。
