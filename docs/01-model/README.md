@@ -17,6 +17,8 @@
 - [归一化专题：LayerNorm 与 RMSNorm 的图解和推导](normalization/README.md)
 
 - [Attention 细分专题：MHA 独立性、Linear Attention、手写 GQA](attention/README.md)
+
+- [MoE 专题：细粒度专家、共享专家与无辅助损失路由](moe/README.md)
 - [Token 主流程](#section-01)
 - [DeepSeek Transformer Block](#section-02)
 - [RMSNorm](#section-03)

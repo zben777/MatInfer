@@ -21,9 +21,20 @@
 | `05-online-algorithm-shape.svg` | Softmax 与 Welford 在线方差的修正项同构 |
 | `06-merge-animation.svg` | 五帧动画（CSS 关键帧循环播放，需由页面内联或 `<img>` 加载） |
 
-两个生成脚本均只依赖 Python 标准库，可重新生成：`python3 tools/generate_attention_figures.py`。
+`images/moe/` 由 `tools/generate_moe_figures.py` 生成，供 [DeepSeekMoE 专题](../docs/01-model/moe/deepseek-moe.md)使用：
 
-图内数字与专题正文一致（O = 5、ℓ = 2.5、U = 12.5、41/9、3.25、修正项 154.7 占 95.7%）。改动正文数字时须同步改脚本并重新生成。
+| 文件 | 内容 |
+| --- | --- |
+| `01-ledger.svg` | Dense / 常规 MoE / DeepSeekMoE 三条路的参数与激活算力账本 |
+| `02-shared-expert.svg` | 通用知识被 15 个专家各存一份，与共享专家只存一份的对比 |
+| `03-scoring-functions.svg` | Sigmoid 与 Sqrt(Softplus) 的曲线及饱和导致的"分辨率"差异 |
+| `04-bias-routing.svg` | 偏置项只进 Top-K 排序、不进门控权重，因而零梯度 |
+| `05-forward-animation.svg` | 五帧动画：1×6 一次完整前向（打分 → 加偏置 → 归一化 → 前向 → 合并） |
+| `06-node-limited-routing.svg` | Node-Limited Routing 把跨节点通信从 8t 压到 4t，以及它砍掉的路由自由度 |
+
+三个生成脚本均只依赖 Python 标准库，可重新生成：`python3 tools/generate_attention_figures.py`。
+
+图内数字与专题正文一致（O = 5、ℓ = 2.5、U = 12.5、41/9、3.25、修正项 154.7 占 95.7%；MoE 侧为 108 / 864 / 432 与 120 / 240 / 120、w = 1/7, 9/14, 3/14、y = 2.0338、激活比例 8.90% / 5.51% / 4.58% / 3.06%）。改动正文数字时须同步改脚本并重新生成。
 
 ## 阅读页
 
@@ -33,6 +44,7 @@
 | --- | --- |
 | `docs/normalization.html` | `docs/01-model/normalization/layernorm-rmsnorm.md` |
 | `docs/03-operators/attention/online-softmax.html` | `docs/03-operators/attention/online-softmax.md` |
+| `docs/01-model/moe/deepseek-moe.html` | `docs/01-model/moe/deepseek-moe.md` |
 
 阅读页由 `tools/build_reading_page.mjs` 生成，产物内联全部插图（base64 SVG）并用 MathJax 把公式渲染成内联 SVG，**不依赖任何外部资源，离线可看，插图动画正常播放**。正文改动后重新生成：
 
