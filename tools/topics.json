@@ -1,0 +1,97 @@
+{
+  "_comment": "MatInfer 专题登记表。build_all.mjs 读取它来重建阅读页并检查链接。managed=true 表示该 HTML 由构建器完全接管（md 改动后会被重新生成）；managed=false 表示该页有手工维护的内容（额外 CSS、侧栏项等），构建器只做链接检查、不覆盖它。新增专题追加一条即可；out 省略时默认输出到与 md 同目录的 .html。",
+  "repo": "https://github.com/zben777/MatInfer/blob/main",
+  "layerLabels": {
+    "01-model": "模型原理",
+    "02-serving": "推理框架",
+    "03-operators": "核心算子",
+    "04-backends": "高性能 Backend",
+    "05-kernel-engineering": "Kernel 编程",
+    "06-gpu-performance": "GPU 性能",
+    "00-overview": "总览"
+  },
+  "topics": [
+    {
+      "md": "docs/01-model/attention/gqa-head-sharing.md",
+      "out": "docs/index.html",
+      "managed": false,
+      "navLabel": "模型原理",
+      "navTitle": "Attention",
+      "crumb": [
+        "模型原理",
+        "Attention"
+      ],
+      "eyebrow": "原理笔记 · GQA",
+      "sideLinks": [
+        {
+          "label": "MHA 各头是否独立",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/mha-head-independence.md"
+        },
+        {
+          "label": "手写 GQA 与缓存推理",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-from-scratch.md"
+        },
+        {
+          "label": "Linear Attention",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/linear-attention.md"
+        },
+        {
+          "label": "图解：LayerNorm 与 RMSNorm",
+          "href": "normalization.html"
+        }
+      ]
+    },
+    {
+      "md": "docs/01-model/normalization/layernorm-rmsnorm.md",
+      "out": "docs/normalization.html",
+      "managed": false,
+      "navLabel": "模型原理",
+      "navTitle": "归一化",
+      "crumb": [
+        "模型原理",
+        "归一化"
+      ],
+      "eyebrow": "图解专题 · 归一化",
+      "sideLinks": [
+        {
+          "label": "MHA 各头是否独立",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/mha-head-independence.md"
+        },
+        {
+          "label": "手写 GQA 与缓存推理",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-from-scratch.md"
+        },
+        {
+          "label": "Linear Attention",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/linear-attention.md"
+        }
+      ]
+    },
+    {
+      "md": "docs/03-operators/attention/online-softmax.md",
+      "out": "docs/03-operators/attention/online-softmax.html",
+      "managed": true,
+      "navLabel": "核心算子",
+      "navTitle": "Attention",
+      "crumb": [
+        "核心算子",
+        "Attention"
+      ],
+      "eyebrow": "图解专题 · Attention",
+      "sideLinks": [
+        {
+          "label": "MHA 各头是否独立",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/mha-head-independence.md"
+        },
+        {
+          "label": "手写 GQA 与缓存推理",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-from-scratch.md"
+        },
+        {
+          "label": "FlashAttention 版本演进",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/04-backends/attention/flashattention-evolution.md"
+        }
+      ]
+    }
+  ]
+}

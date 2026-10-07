@@ -29,6 +29,37 @@ const { AllPackages } = require('mathjax-full/js/input/tex/AllPackages.js');
 const REPO = 'https://github.com/zben777/MatInfer/blob/main';
 const BODY_WIDTH = 740;
 
+/* ------------------------------- 专题登记表 ------------------------------- */
+// tools/topics.json 记录每个专题的 md → 阅读页输出路径，以及侧边栏/面包屑信息。
+// 登记表里没有的专题会按路径推导出默认值，所以「只写 md、直接构建」也能跑。
+
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const REGISTRY_PATH = path.join(REPO_ROOT, 'tools', 'topics.json');
+
+function loadRegistry() {
+  if (!fs.existsSync(REGISTRY_PATH)) return { topics: [], layerLabels: {} };
+  try {
+    return JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  } catch (e) {
+    console.warn(`  ! tools/topics.json 解析失败，改用路径推导：${e.message}`);
+    return { topics: [], layerLabels: {} };
+  }
+}
+
+/** 由路径推导导航信息：docs/<层>/<专题>/<名>.md */
+function deriveMeta(mdRel, layerLabels = {}) {
+  const parts = mdRel.split('/');
+  const layer = layerLabels[parts[1]] || parts[1] || '';
+  const topic = parts.length >= 4 ? parts[2].replace(/-/g, ' ') : '';
+  return {
+    navLabel: layer,
+    navTitle: topic,
+    crumb: [layer, topic].filter(Boolean),
+    eyebrow: `图解专题 · ${topic || layer}`,
+    sideLinks: [],
+  };
+}
+
 /* ---------------------------------- 公式 ---------------------------------- */
 
 const adaptor = liteAdaptor();
@@ -38,13 +69,21 @@ const svgOutput = new SVG({ fontCache: 'local' });
 const mathDoc = mathjax.document('', { InputJax: texPackages, OutputJax: svgOutput });
 
 function renderTex(latex, display) {
-  const node = mathDoc.convert(latex.trim(), {
-    display,
-    em: 16,
-    ex: 8,
-    containerWidth: BODY_WIDTH,
-  });
-  return adaptor.outerHTML(node);
+  const src = latex.trim();
+  try {
+    const node = mathDoc.convert(src, {
+      display,
+      em: 16,
+      ex: 8,
+      containerWidth: BODY_WIDTH,
+    });
+    return adaptor.outerHTML(node);
+  } catch (e) {
+    // MathJax 的报错完全不提是哪个公式，这里补上，否则只能靠逐个二分
+    throw new Error(
+      `公式渲染失败：${JSON.stringify(src.slice(0, 160))}\n  ${e.message}`
+    );
+  }
 }
 
 /* --------------------------------- 工具函数 -------------------------------- */
@@ -59,10 +98,13 @@ function inline(text, baseDir) {
 
   let s = text;
 
-  // 行内代码
-  s = s.replace(/`([^`]+)`/g, (_, c) => keep(`<code>${esc(c)}</code>`));
-  // 行内公式（不跨行，避免吃掉 $$
-  s = s.replace(/\$([^$\n]+?)\$/g, (_, t) => keep(renderTex(t, false)));
+  // 行内代码与行内公式必须**一次扫描**：谁先出现谁生效。
+  // 分两步会出事——先把 `code` 抽成占位符后，公式里的占位符会被喂给 MathJax 直接崩。
+  // 支持三种写法：`code`、GitHub 风格 $`tex`$、普通 $tex$。
+  s = s.replace(/`([^`]+)`|\$`([^$]+?)`\$|\$([^$\n]+?)\$/g, (_, code, gfm, tex) => {
+    if (code !== undefined) return keep(`<code>${esc(code)}</code>`);
+    return keep(renderTex(gfm !== undefined ? gfm : tex, false));
+  });
 
   s = esc(s);
 
@@ -98,6 +140,22 @@ function parseBlocks(src) {
       while (i < lines.length && !/^```\s*$/.test(lines[i])) buf.push(lines[i++]);
       i++; // 收尾
       blocks.push({ type: lang === 'math' ? 'math' : 'code', lang, text: buf.join('\n') });
+      continue;
+    }
+
+    // 裸 HTML：<details>…</details> 折叠块。外壳透传，内部仍按 Markdown 解析。
+    if (/^<details[\s>]/i.test(line)) {
+      const buf = [];
+      i++;
+      while (i < lines.length && !/^\s*<\/details>\s*$/i.test(lines[i])) buf.push(lines[i++]);
+      i++; // 跳过 </details>
+      const inner = buf.join('\n');
+      const m = /<summary>[\s\S]*?<\/summary>/i.exec(inner);
+      blocks.push({
+        type: 'details',
+        summary: m ? m[0] : '',
+        children: parseBlocks(m ? inner.replace(m[0], '') : inner),
+      });
       continue;
     }
 
@@ -194,6 +252,57 @@ function renderFigure({ alt, src }, mdDir, outDir) {
   );
 }
 
+/** 渲染一组块。toc 传 null 时（如 <details> 内部）不登记目录。 */
+function renderBlocks(list, ctx, toc) {
+  const out = [];
+  for (const b of list) {
+    switch (b.type) {
+      case 'h1':
+        break; // 标题单独放在 article 外面
+      case 'h2': {
+        ctx.secNo++;
+        const id = `section-${ctx.secNo}`;
+        if (toc) toc.push({ id, text: b.text });
+        out.push(`<h2 id="${id}">${inline(b.text, ctx.baseDir)}</h2>`);
+        break;
+      }
+      case 'h3':
+        out.push(`<h3>${inline(b.text, ctx.baseDir)}</h3>`);
+        break;
+      case 'p':
+        out.push(`<p>${inline(b.text, ctx.baseDir)}</p>`);
+        break;
+      case 'quote':
+        out.push(`<blockquote><p>${inline(b.text, ctx.baseDir)}</p></blockquote>`);
+        break;
+      case 'math':
+        out.push(`<div class="equation">${renderTex(b.text, true)}</div>`);
+        break;
+      case 'code':
+        out.push(
+          `<pre><code class="language-${b.lang || 'text'}">${esc(b.text)}</code></pre>`
+        );
+        break;
+      case 'table':
+        out.push(renderTable(b.rows, ctx.baseDir));
+        break;
+      case 'figure':
+        out.push(renderFigure(b, ctx.mdDir, ctx.outDir));
+        break;
+      case 'caption':
+        out.push(`<p><em>${inline(b.text, ctx.baseDir)}</em></p>`);
+        break;
+      case 'details':
+        out.push(`<details>${b.summary}\n${renderBlocks(b.children, ctx, null)}</details>`);
+        break;
+      case 'hr':
+        out.push('<hr>');
+        break;
+    }
+  }
+  return out.join('\n');
+}
+
 /* ---------------------------------- 主流程 --------------------------------- */
 
 function build(mdPath, outPath, meta) {
@@ -211,51 +320,9 @@ function build(mdPath, outPath, meta) {
   const sections = blocks.filter((b) => b.type === 'h2');
 
   const body = [];
-  let secNo = 0;
   const toc = [];
-
-  for (const b of blocks) {
-    switch (b.type) {
-      case 'h1':
-        break; // 标题单独放在 article 外面
-      case 'h2': {
-        secNo++;
-        const id = `section-${secNo}`;
-        toc.push({ id, text: b.text });
-        body.push(`<h2 id="${id}">${inline(b.text, baseDir)}</h2>`);
-        break;
-      }
-      case 'h3':
-        body.push(`<h3>${inline(b.text, baseDir)}</h3>`);
-        break;
-      case 'p':
-        body.push(`<p>${inline(b.text, baseDir)}</p>`);
-        break;
-      case 'quote':
-        body.push(`<blockquote><p>${inline(b.text, baseDir)}</p></blockquote>`);
-        break;
-      case 'math':
-        body.push(`<div class="equation">${renderTex(b.text, true)}</div>`);
-        break;
-      case 'code':
-        body.push(
-          `<pre><code class="language-${b.lang || 'text'}">${esc(b.text)}</code></pre>`
-        );
-        break;
-      case 'table':
-        body.push(renderTable(b.rows, baseDir));
-        break;
-      case 'figure':
-        body.push(renderFigure(b, mdDir, outDir));
-        break;
-      case 'caption':
-        body.push(`<p><em>${inline(b.text, baseDir)}</em></p>`);
-        break;
-      case 'hr':
-        body.push('<hr>');
-        break;
-    }
-  }
+  const ctx = { baseDir, mdDir, outDir, secNo: 0 };
+  body.push(renderBlocks(blocks, ctx, toc));
 
   const tocHtml = toc
     .map((t) => `<a href="#${t.id}">${esc(t.text)}</a>`)
@@ -280,6 +347,7 @@ article{font-size:var(--font-size);line-height:1.95;overflow-wrap:break-word}art
 article table{width:100%;border-collapse:collapse;font-size:16px;margin:26px 0 30px;line-height:1.8}article th{text-align:left;font-size:13px;font-weight:550;color:#737c84;background:#fafbfa}article th,article td{padding:13px 15px;border-bottom:1px solid #e9eeeb}article tbody tr:last-child td{border-bottom:1px solid #dce4df}
 article mjx-container{font-size:105%!important}article mjx-container svg{max-width:100%;height:auto}article mjx-container[display="true"]{margin:0!important}.equation{margin:28px 0 32px;text-align:center;overflow-x:auto;padding:10px 0}
 article blockquote{margin:20px 0 26px;padding:0 0 0 20px;border-left:3px solid #d8dfe5;color:var(--ink)}article blockquote p:last-child{margin-bottom:0}
+article details{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:19px 0;margin:38px 0 28px;font-size:16px}article summary{cursor:pointer;color:#5c6f66;font-size:15px}article details[open] summary{margin-bottom:22px}article details p{margin-bottom:18px}
 article .diagram{display:block;width:100%;height:auto;border:1px solid #edf0f2;border-radius:12px;margin:30px 0 14px}article .diagram-link{display:block;border:none;cursor:zoom-in}article p:has(.diagram-link){margin-bottom:10px}article p>em:only-child{display:block;font-size:14px;line-height:1.8;color:#78828f;margin-bottom:32px}
 article pre{background:#f5f7f9;border:1px solid #e9eef2;border-radius:8px;padding:20px;overflow-x:auto;font-size:14px;line-height:1.8}article pre code{background:none;padding:0;white-space:pre}article hr{border:none;border-top:1px solid var(--line);margin:44px 0}
 .article-footer{border-top:1px solid var(--line);margin-top:42px;padding-top:18px;color:var(--muted);font-size:12px;line-height:1.8}
@@ -321,25 +389,20 @@ document.querySelectorAll('.diagram-link').forEach(a=>a.addEventListener('click'
 
 /* ---------------------------------- CLI ---------------------------------- */
 
-const [mdArg, outArg] = process.argv.slice(2);
+const [mdArg, outArg] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
 if (!mdArg) {
   console.error('用法: node tools/build_reading_page.mjs <input.md> [output.html]');
+  console.error('输出路径与导航信息默认来自 tools/topics.json，未登记时按路径推导。');
   process.exit(1);
 }
 const mdPath = path.resolve(mdArg);
-const outPath = path.resolve(outArg || mdPath.replace(/\.md$/, '.html'));
 
-const meta = {
-  navLabel: '核心算子',
-  navTitle: 'Attention',
-  crumb: ['核心算子', 'Attention'],
-  eyebrow: '图解专题 · Attention',
-  sideLinks: [
-    { label: 'MHA 各头是否独立', href: `${REPO}/docs/01-model/attention/mha-head-independence.md` },
-    { label: '手写 GQA 与缓存推理', href: `${REPO}/docs/01-model/attention/gqa-from-scratch.md` },
-    { label: 'FlashAttention 版本演进', href: `${REPO}/docs/04-backends/attention/flashattention-evolution.md` },
-  ],
-};
+const registry = loadRegistry();
+const mdRel = path.relative(REPO_ROOT, mdPath).split(path.sep).join('/');
+const entry = (registry.topics || []).find((t) => t.md === mdRel) || {};
+const outPath = path.resolve(outArg || entry.out || mdPath.replace(/\.md$/, '.html'));
+
+const meta = { ...deriveMeta(mdRel, registry.layerLabels), ...entry };
 
 const stat = build(mdPath, outPath, meta);
 console.log(`  标题   ${stat.title}`);
