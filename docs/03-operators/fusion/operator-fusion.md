@@ -207,4 +207,4 @@
 [^cutlass]: [CUTLASS GEMM API](https://docs.nvidia.com/cutlass/latest/media/docs/cpp/gemm_api.html)：mainloop 与 epilogue 分工。
 [^cutlass-evt]: [CUTLASS 官方 Example 49](https://github.com/NVIDIA/cutlass/blob/main/examples/49_hopper_gemm_with_collective_builder/49_collective_builder.cu)：Hopper collective builder 与 EVT 示例，包含对应约束。
 
-[返回融合专题](README.md) · [Attention 与 FFN 的 decode 数据流](../../01-model/transformer/attention-and-ffn.md) · [LayerNorm 与 RMSNorm](../../01-model/normalization/layernorm-rmsnorm.md) · [高性能 Backend](../../04-backends/README.md) · [Kernel 编程](../../05-kernel-engineering/README.md)
+[返回融合专题](README.md) · [Attention 与 FFN 的分界线](../../01-model/transformer/attention-and-ffn.md) · [LayerNorm 与 RMSNorm](../../01-model/normalization/layernorm-rmsnorm.md) · [高性能 Backend](../../04-backends/README.md) · [Kernel 编程](../../05-kernel-engineering/README.md)

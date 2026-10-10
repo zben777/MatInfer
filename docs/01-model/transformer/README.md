@@ -4,6 +4,6 @@
 
 | 专题 | 核心问题 |
 | --- | --- |
-| [Decode 中的 Attention 与 FFN：生成下一个 token 时怎样分工](attention-and-ffn.md) | 一次 decode 怎样读取历史 KV、处理当前表示？公式、门控和参数量怎样理解？ |
+| [层里只有一步跨位置：softmax 的分母如何分开 Attention 与 FFN](attention-and-ffn.md) | 两个子层的分界线到底在哪？为什么只有 Attention 需要缓存？FFN 凭什么开到四倍宽？ |
 
 [Attention 深入专题](../attention/README.md) · [归一化深入专题](../normalization/README.md) · [返回模型原理](../README.md)

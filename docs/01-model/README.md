@@ -12,7 +12,7 @@
 
 ## 内容索引
 
-- [Transformer 基础：Attention 与 FFN 的分工](transformer/README.md)
+- [Transformer 基础专题：Attention 与 FFN 的分界线在哪](transformer/README.md)
 
 - [归一化专题：LayerNorm 与 RMSNorm 的图解和推导](normalization/README.md)
 

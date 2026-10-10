@@ -98,6 +98,36 @@
       ]
     },
     {
+      "md": "docs/01-model/transformer/attention-and-ffn.md",
+      "out": "docs/01-model/transformer/attention-and-ffn.html",
+      "managed": true,
+      "navLabel": "模型原理",
+      "navTitle": "Attention 与 FFN",
+      "crumb": [
+        "模型原理",
+        "Transformer 基础"
+      ],
+      "eyebrow": "图解专题 · Attention 与 FFN",
+      "sideLinks": [
+        {
+          "label": "为省一次访存而生：Online Softmax",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/03-operators/attention/online-softmax.md"
+        },
+        {
+          "label": "把 FFN 切成 256 份：DeepSeekMoE",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/moe/deepseek-moe.md"
+        },
+        {
+          "label": "MHA 各头是否独立",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/mha-head-independence.md"
+        },
+        {
+          "label": "LayerNorm 与 RMSNorm",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/normalization/layernorm-rmsnorm.md"
+        }
+      ]
+    },
+    {
       "md": "docs/03-operators/attention/online-softmax.md",
       "out": "docs/03-operators/attention/online-softmax.html",
       "managed": true,

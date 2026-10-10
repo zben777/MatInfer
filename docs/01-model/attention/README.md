@@ -2,7 +2,7 @@
 
 按问题拆分原理与实现，先理解计算依赖，再讨论缓存和性能。
 
-初学可先阅读 [Transformer 基础：Attention 与 FFN 的分工](../transformer/attention-and-ffn.md)，再进入以下专题。
+初学可先阅读 [Transformer 基础：Attention 与 FFN 的分界线](../transformer/README.md)，再进入以下专题。
 
 | 专题 | 核心问题 |
 | --- | --- |

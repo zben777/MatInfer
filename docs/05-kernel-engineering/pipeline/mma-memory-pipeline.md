@@ -271,4 +271,4 @@ Consumer（一个合法对齐的 warpgroup）:
 [^blackwell]: [NVIDIA Blackwell Tuning Guide](https://docs.nvidia.com/cuda/blackwell-tuning-guide/index.html)：对应架构能力与资源；具体指令以目标与 PTX 支持为准。
 [^cutlass]: [CUTLASS：Efficient GEMM](https://docs.nvidia.com/cutlass/latest/media/docs/cpp/efficient_gemm.html)：分块、软件流水与 warp 特化思想。
 
-[返回流水线专题](README.md) · [Kernel 编程总览](../README.md) · [算子融合](../../03-operators/fusion/operator-fusion.md) · [Decode 的 Attention 与 FFN](../../01-model/transformer/attention-and-ffn.md) · [RTX 4090 参数](../../06-gpu-performance/hardware/rtx-4090.md)
+[返回流水线专题](README.md) · [Kernel 编程总览](../README.md) · [算子融合](../../03-operators/fusion/operator-fusion.md) · [Attention 与 FFN 的分界线](../../01-model/transformer/attention-and-ffn.md) · [RTX 4090 参数](../../06-gpu-performance/hardware/rtx-4090.md)
