@@ -19,6 +19,8 @@
 - [Attention 细分专题：MHA 独立性、Linear Attention、手写 GQA](attention/README.md)
 
 - [MoE 专题：细粒度专家、共享专家与无辅助损失路由](moe/README.md)
+
+- [FFN 与门控专题：从 ReLU 到 SwiGLU，门是从哪来的](ffn/README.md)
 - [Token 主流程](#section-01)
 - [DeepSeek Transformer Block](#section-02)
 - [RMSNorm](#section-03)
