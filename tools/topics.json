@@ -128,6 +128,66 @@
       ]
     },
     {
+      "md": "docs/01-model/ffn/swiglu.md",
+      "out": "docs/01-model/ffn/swiglu.html",
+      "managed": true,
+      "navLabel": "模型原理",
+      "navTitle": "FFN 与门控",
+      "crumb": [
+        "模型原理",
+        "FFN 与门控"
+      ],
+      "eyebrow": "图解专题 · FFN 与门控",
+      "sideLinks": [
+        {
+          "label": "层里只有一步跨位置：Attention 与 FFN",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/transformer/attention-and-ffn.md"
+        },
+        {
+          "label": "把 FFN 切成 256 份：DeepSeekMoE",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/moe/deepseek-moe.md"
+        },
+        {
+          "label": "LayerNorm 与 RMSNorm",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/normalization/layernorm-rmsnorm.md"
+        },
+        {
+          "label": "为省一次访存而生：Online Softmax",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/03-operators/attention/online-softmax.md"
+        }
+      ]
+    },
+    {
+      "md": "docs/05-kernel-engineering/deepgemm/cta-tiling.md",
+      "out": "docs/05-kernel-engineering/deepgemm/cta-tiling.html",
+      "managed": true,
+      "navLabel": "Kernel 编程",
+      "navTitle": "DeepGEMM 源码导读",
+      "crumb": [
+        "Kernel 编程",
+        "DeepGEMM 源码导读"
+      ],
+      "eyebrow": "图解专题 · DeepGEMM",
+      "sideLinks": [
+        {
+          "label": "层里只有一步跨位置：Attention 与 FFN",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/transformer/attention-and-ffn.md"
+        },
+        {
+          "label": "为省一次访存而生：Online Softmax",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/03-operators/attention/online-softmax.md"
+        },
+        {
+          "label": "矩阵计算与搬运怎样重叠",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/05-kernel-engineering/pipeline/mma-memory-pipeline.md"
+        },
+        {
+          "label": "把 FFN 切成 256 份：DeepSeekMoE",
+          "href": "https://github.com/zben777/MatInfer/blob/main/docs/01-model/moe/deepseek-moe.md"
+        }
+      ]
+    },
+    {
       "md": "docs/03-operators/attention/online-softmax.md",
       "out": "docs/03-operators/attention/online-softmax.html",
       "managed": true,

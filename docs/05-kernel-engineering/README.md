@@ -12,6 +12,8 @@
 
 ## 内容索引
 
+- [DeepSeek Kernel 源码导读专题：顺着 DeepGEMM 源码走一遍分块与流水线](deepgemm/README.md)
+
 - [异步搬运与多阶段流水线专题：Ampere、Hopper、Blackwell](pipeline/README.md)
 
 - [跨层专题：算子融合的工具选择、实现约束与验证](../03-operators/fusion/operator-fusion.md#3-实现手段编译器融合与手写-kernel)
