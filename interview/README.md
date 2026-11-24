@@ -4,7 +4,7 @@
 
 题目在对应知识层中维护；此页提供集中入口。后续每个专题逐步补充简要回答、正文链接、追问和来源，无需为了篇数凑题。
 
-[总导航](../导航.md) · [学习路线](../roadmap/README.md)
+[总导航](../导航.md) · 
 
 ## 回答层次
 
@@ -16,9 +16,9 @@
 
 ## 模型原理
 
-[对应内容与题目](../docs/01-model/README.md#section-11)
+[对应内容与题目](../01-model/README.md#section-11)
 
-已展开的专题自测：[MHA 各头独立性](../docs/01-model/attention/mha-head-independence.md#面试与自测) · [Linear Attention](../docs/01-model/attention/linear-attention.md#面试与自测) · [手写 GQA](../docs/01-model/attention/gqa-from-scratch.md#面试与自测)。这些是新增专题练习，不计入下方原稿的 70 道题。
+已展开的专题自测：[MHA 各头独立性](../01-model/attention/mha-head-independence.md#面试与自测) · [Linear Attention](../01-model/attention/linear-attention.md#面试与自测) · [手写 GQA](../01-model/attention/gqa-from-scratch.md#面试与自测)。这些是新增专题练习，不计入下方原稿的 70 道题。
 
 1. **一个 Transformer Block 的完整流程是什么？**
 2. **为什么使用 RMSNorm？**
@@ -31,7 +31,7 @@
 
 ## 推理框架与服务系统
 
-[对应内容与题目](../docs/02-serving/README.md#section-16)
+[对应内容与题目](../02-serving/README.md#section-16)
 
 1. vLLM 一次 Request 的生命周期是什么？
 2. Continuous Batching 为什么可以提高吞吐？
@@ -46,25 +46,25 @@
 
 ## 核心算子与计算特征
 
-[对应内容与题目](../docs/03-operators/README.md#section-18)
+[对应内容与题目](../03-operators/README.md#section-18)
 
 1. GEMM 的 $`M`$、$`N`$、$`K`$ 分别代表什么？
 2. 为什么小 $`M`$ GEMM 效率差？
 3. 为什么 $`K`$ 很小时 Tensor Core 利用率可能低？
-4. [Softmax 和 Online Softmax 有什么区别？](../docs/03-operators/attention/online-softmax.md)
-5. [FlashAttention 为什么减少 HBM 访问？](../docs/04-backends/attention/flashattention-evolution.md)
+4. [Softmax 和 Online Softmax 有什么区别？](../03-operators/attention/online-softmax.md)
+5. [FlashAttention 为什么减少 HBM 访问？](../04-backends/attention/flashattention-evolution.md)
 6. Decode Attention 为什么常常 memory-bound？
 7. RMSNorm 为什么通常偏 memory-bound？
-8. [Fusion 为什么能提升性能？做过哪些融合工作，怎样验证？](../docs/03-operators/fusion/operator-fusion.md)
+8. [Fusion 为什么能提升性能？做过哪些融合工作，怎样验证？](../03-operators/fusion/operator-fusion.md)
 9. Grouped GEMM 为什么适合 MoE？
 10. 怎么判断一个算子是 compute-bound 还是 memory-bound？
 
 ## 高性能 Backend
 
-[对应内容与题目](../docs/04-backends/README.md#section-23)
+[对应内容与题目](../04-backends/README.md#section-23)
 
-1. [FlashAttention 为什么快？v1 / v2 / v3 分别改变了什么？](../docs/04-backends/attention/flashattention-evolution.md)
-2. [Online Softmax 在 FlashAttention 里的作用是什么？](../docs/03-operators/attention/online-softmax.md)
+1. [FlashAttention 为什么快？v1 / v2 / v3 分别改变了什么？](../04-backends/attention/flashattention-evolution.md)
+2. [Online Softmax 在 FlashAttention 里的作用是什么？](../03-operators/attention/online-softmax.md)
 3. FlashMLA 和 FlashAttention 有什么关系？
 4. Decode Attention 为什么需要 Split-KV？
 5. GEMM 为什么需要 Tiling？
@@ -78,7 +78,7 @@
 
 ## Kernel 编程与工程
 
-[对应内容与题目](../docs/05-kernel-engineering/README.md#section-30)
+[对应内容与题目](../05-kernel-engineering/README.md#section-30)
 
 1. CUDA 的 Grid / Block / Warp / Thread 是什么关系？
 2. 当前 NVIDIA CUDA 中 Warp 的大小是多少？这怎样影响线程映射？
@@ -91,13 +91,13 @@
 9. Triton 和 CUDA 的编程模型有什么区别？
 10. Triton Layout 是什么？
 11. CUTLASS 和 CuTe 是什么关系？
-12. [`cp.async` 和 TMA 有什么区别？](../docs/05-kernel-engineering/pipeline/mma-memory-pipeline.md)
-13. [Producer–Consumer Pipeline 为什么能加速？什么时候可以释放缓冲区？](../docs/05-kernel-engineering/pipeline/mma-memory-pipeline.md)
+12. [`cp.async` 和 TMA 有什么区别？](../05-kernel-engineering/pipeline/mma-memory-pipeline.md)
+13. [Producer–Consumer Pipeline 为什么能加速？什么时候可以释放缓冲区？](../05-kernel-engineering/pipeline/mma-memory-pipeline.md)
 14. 为什么同一个 Kernel 对不同 Shape 最优配置不同？
 
 ## GPU 硬件与性能分析
 
-[对应内容与题目](../docs/06-gpu-performance/README.md#section-31)
+[对应内容与题目](../06-gpu-performance/README.md#section-31)
 
 1. GPU 为什么适合大规模并行？
 2. SM、Warp、CTA 的关系是什么？

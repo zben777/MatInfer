@@ -19,9 +19,9 @@ article blockquote{margin:20px 0 26px;padding:0 0 0 20px;border-left:3px solid #
 <p class="tagline">理解推理，记录问题。</p>
 <div class="nav-label">模型原理</div><div class="nav-title">归一化</div>
 <a class="side-link active" href="#article-title" aria-current="page">LayerNorm 与 RMSNorm</a>
-<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/mha-head-independence.md">MHA 各头是否独立</a>
-<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-from-scratch.md">手写 GQA 与缓存推理</a>
-<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/linear-attention.md">Linear Attention</a>
+<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/mha-head-independence.md">MHA 各头是否独立</a>
+<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/gqa-from-scratch.md">手写 GQA 与缓存推理</a>
+<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/linear-attention.md">Linear Attention</a>
 <div class="side-footer">MatInfer · 阅读样板</div>
 </aside>
 <main class="main"><header class="topbar"><div class="crumb">模型原理<span>/</span>归一化</div><div class="reading-controls"><small>阅读字号</small><button id="smaller" aria-label="减小字号">−</button><button id="larger" aria-label="增大字号">＋</button></div></header>
@@ -383,8 +383,8 @@ print(rms_norm_steps(x, gamma, eps=0))
 
 
 
-<p><a href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/normalization/README.md">返回归一化专题</a> · <a href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/normalization/../README.md">返回模型原理</a></p>
-</article><footer class="article-footer">MatInfer · 用图建立直觉，用推导解释细节。</footer></div><nav class="toc" aria-label="本页目录"><div class="toc-label">本页内容</div><a href="#section-1">1. 先确定范围：对一个 token 的哪些数做归一化</a><a href="#section-2">2. 两条计算路径：减去均值，还是只缩放尺度</a><a href="#section-3">3. 用同一组数字，看两种 Norm 改变了什么</a><a href="#section-4">4. 从公式到代码：归约、缩放与实际访存</a><a href="#section-5">5. 面试与自测：能否解释这些边界</a><a href="#section-6">参考</a><a class="view-source" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/normalization/layernorm-rmsnorm.md">在 GitHub 阅读原文 ↗</a></nav></div>
+<p><a href="https://github.com/zben777/MatInfer/blob/main/01-model/normalization/README.md">返回归一化专题</a> · <a href="https://github.com/zben777/MatInfer/blob/main/01-model/normalization/../README.md">返回模型原理</a></p>
+</article><footer class="article-footer">MatInfer · 用图建立直觉，用推导解释细节。</footer></div><nav class="toc" aria-label="本页目录"><div class="toc-label">本页内容</div><a href="#section-1">1. 先确定范围：对一个 token 的哪些数做归一化</a><a href="#section-2">2. 两条计算路径：减去均值，还是只缩放尺度</a><a href="#section-3">3. 用同一组数字，看两种 Norm 改变了什么</a><a href="#section-4">4. 从公式到代码：归约、缩放与实际访存</a><a href="#section-5">5. 面试与自测：能否解释这些边界</a><a href="#section-6">参考</a><a class="view-source" href="https://github.com/zben777/MatInfer/blob/main/01-model/normalization/layernorm-rmsnorm.md">在 GitHub 阅读原文 ↗</a></nav></div>
 </main>
 <script>
 (()=>{let size=18;const change=delta=>{size=Math.max(16,Math.min(22,size+delta));document.documentElement.style.setProperty('--font-size',size+'px');document.getElementById('smaller').disabled=size===16;document.getElementById('larger').disabled=size===22};document.getElementById('smaller').addEventListener('click',()=>change(-1));document.getElementById('larger').addEventListener('click',()=>change(1));const links=[...document.querySelectorAll('.toc a[href^="#"]')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){links.forEach(l=>l.classList.toggle('current',l.hash==='#'+entry.target.id))}},{rootMargin:'-10% 0px -65% 0px'});document.querySelectorAll('article h2').forEach(h=>observer.observe(h));})();

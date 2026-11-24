@@ -2,7 +2,7 @@
 
 三张学习图已保存到 `images/` 并在[仓库首页](../README.md)展示：推理技术栈、Transformer 原理、DeepSeek 全栈面试地图。当前使用用户提供的原图，图片内部的公式与术语尚待修订。
 
-原稿中的外部图片链接继续保留在[总览](../docs/00-overview/README.md)。
+原稿中的外部图片链接继续保留在[总览](../00-overview/README.md)。
 
 后续为知识图保留可编辑图源，并从所属专题链接到导出的图片。每张图说明范围、简化条件和来源；需要重新使用外部图片时核对作者与授权。六层 ASCII 图目前作为布局草案保存。
 
@@ -10,7 +10,7 @@
 
 `images/normalization/` 由 `tools/generate_norm_figures.py` 生成。
 
-`images/attention/` 由 `tools/generate_attention_figures.py` 生成，供 [Online Softmax 专题](../docs/03-operators/attention/online-softmax.md)使用：
+`images/attention/` 由 `tools/generate_attention_figures.py` 生成，供 [Online Softmax 专题](../03-operators/attention/online-softmax.md)使用：
 
 | 文件 | 内容 |
 | --- | --- |
@@ -21,7 +21,7 @@
 | `05-online-algorithm-shape.svg` | Softmax 与 Welford 在线方差的修正项同构 |
 | `06-merge-animation.svg` | 五帧动画（CSS 关键帧循环播放，需由页面内联或 `<img>` 加载） |
 
-`images/moe/` 由 `tools/generate_moe_figures.py` 生成，供 [DeepSeekMoE 专题](../docs/01-model/moe/deepseek-moe.md)使用：
+`images/moe/` 由 `tools/generate_moe_figures.py` 生成，供 [DeepSeekMoE 专题](../01-model/moe/deepseek-moe.md)使用：
 
 | 文件 | 内容 |
 | --- | --- |
@@ -32,7 +32,7 @@
 | `05-forward-animation.svg` | 五帧动画：1×6 一次完整前向（打分 → 加偏置 → 归一化 → 前向 → 合并） |
 | `06-node-limited-routing.svg` | Node-Limited Routing 把跨节点通信从 8t 压到 4t，以及它砍掉的路由自由度 |
 
-`images/attnffn/` 由 `tools/generate_attnffn_figures.py` 生成，供 [Attention 与 FFN 专题](../docs/01-model/transformer/attention-and-ffn.md)使用：
+`images/attnffn/` 由 `tools/generate_attnffn_figures.py` 生成，供 [Attention 与 FFN 专题](../01-model/transformer/attention-and-ffn.md)使用：
 
 | 文件 | 内容 |
 | --- | --- |
@@ -43,7 +43,7 @@
 | `05-width.svg` | 无激活时两矩阵合成一个（2,097,152 等价于 262,144），有激活时宽度才兑现 |
 | `06-drift.svg` | 参数占比从 2/3 漂到 80.77%：GQA 砍 K/V，SwiGLU 仍占 3dm ≈ 8d² |
 
-`images/swiglu/` 由 `tools/generate_swiglu_figures.py` 生成，供 [FFN 与门控专题](../docs/01-model/ffn/swiglu.md)使用：
+`images/swiglu/` 由 `tools/generate_swiglu_figures.py` 生成，供 [FFN 与门控专题](../01-model/ffn/swiglu.md)使用：
 
 | 文件 | 内容 |
 | --- | --- |
@@ -53,7 +53,7 @@
 | `04-parameter-budget.svg` | 8d² / 12d² / 8d² 三条参数账，以及 m 定为 8d/3 的反解 |
 | `05-gate-vs-route.svg` | 通道维连续调闸（SwiGLU）与专家维离散择路（MoE）的并置 |
 
-`images/deepgemm/` 由 `tools/generate_deepgemm_figures.py` 生成，供 [DeepGEMM CTA Tiling 专题](../docs/05-kernel-engineering/deepgemm/cta-tiling.md)使用：
+`images/deepgemm/` 由 `tools/generate_deepgemm_figures.py` 生成，供 [DeepGEMM CTA Tiling 专题](../05-kernel-engineering/deepgemm/cta-tiling.md)使用：
 
 | 文件 | 内容 |
 | --- | --- |
@@ -74,17 +74,17 @@
 
 | 阅读页 | 对应正文 |
 | --- | --- |
-| `docs/normalization.html` | `docs/01-model/normalization/layernorm-rmsnorm.md` |
-| `docs/03-operators/attention/online-softmax.html` | `docs/03-operators/attention/online-softmax.md` |
-| `docs/01-model/moe/deepseek-moe.html` | `docs/01-model/moe/deepseek-moe.md` |
-| `docs/01-model/transformer/attention-and-ffn.html` | `docs/01-model/transformer/attention-and-ffn.md` |
-| `docs/01-model/ffn/swiglu.html` | `docs/01-model/ffn/swiglu.md` |
-| `docs/05-kernel-engineering/deepgemm/cta-tiling.html` | `docs/05-kernel-engineering/deepgemm/cta-tiling.md` |
+| `docs/normalization.html` | `01-model/normalization/layernorm-rmsnorm.md` |
+| `03-operators/attention/online-softmax.html` | `03-operators/attention/online-softmax.md` |
+| `01-model/moe/deepseek-moe.html` | `01-model/moe/deepseek-moe.md` |
+| `01-model/transformer/attention-and-ffn.html` | `01-model/transformer/attention-and-ffn.md` |
+| `01-model/ffn/swiglu.html` | `01-model/ffn/swiglu.md` |
+| `05-kernel-engineering/deepgemm/cta-tiling.html` | `05-kernel-engineering/deepgemm/cta-tiling.md` |
 
 阅读页由 `tools/build_reading_page.mjs` 生成，产物内联全部插图（base64 SVG）并用 MathJax 把公式渲染成内联 SVG，**不依赖任何外部资源，离线可看，插图动画正常播放**。正文改动后重新生成：
 
 ```
-node tools/build_reading_page.mjs docs/03-operators/attention/online-softmax.md
+node tools/build_reading_page.mjs 03-operators/attention/online-softmax.md
 ```
 
 依赖 `mathjax-full`，装在隔离的 Node 工作区，不污染本机。图源仍是 `images/` 下的 SVG —— 阅读页只是呈现层，改图请改脚本。

@@ -17,4 +17,4 @@
 
 实验先证明正确，再讨论性能；记录 Shape、dtype、GPU、版本、基线、Warmup、同步方式、重复测量和误差。测量结果属于其环境与负载，不能直接推广到所有模型。
 
-[实验记录模板](../templates/experiment.md) · [Kernel 编程](../docs/05-kernel-engineering/README.md) · [GPU 性能分析](../docs/06-gpu-performance/README.md)
+ · [Kernel 编程](../05-kernel-engineering/README.md) · [GPU 性能分析](../06-gpu-performance/README.md)

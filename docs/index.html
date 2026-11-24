@@ -19,15 +19,15 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}but
 <p class="tagline">理解推理，记录问题。</p>
 <div class="nav-label">模型原理</div><div class="nav-title">Attention</div>
 <a class="side-link active" href="#article-title" aria-current="page">GQA 的头怎样共享 KV</a>
-<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/mha-head-independence.md">MHA 各头是否独立</a>
-<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-from-scratch.md">手写 GQA 与缓存推理</a>
-<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/linear-attention.md">Linear Attention</a>
+<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/mha-head-independence.md">MHA 各头是否独立</a>
+<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/gqa-from-scratch.md">手写 GQA 与缓存推理</a>
+<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/linear-attention.md">Linear Attention</a>
 <a class="side-link" href="normalization.html">图解：LayerNorm 与 RMSNorm</a>
 <div class="side-footer">MatInfer · 阅读样板</div>
 </aside>
 <main class="main"><header class="topbar"><div class="crumb">模型原理<span>/</span>Attention</div><div class="reading-controls"><small>阅读字号</small><button id="smaller" aria-label="减小字号">−</button><button id="larger" aria-label="增大字号">＋</button></div></header>
 <div class="layout"><div><div class="eyebrow">原理笔记 · GQA</div><h1 id="article-title">GQA 的多个 Query 头怎样共享 KV？</h1><article id="content"><p>理解 GQA，可以先记住一句话：<strong>减少的是 KV 头，不是 Query 头。</strong> 多个 Query 头读取相同的 Key 和 Value，但仍然各自计算注意力。</p>
-<p>这篇只解释头的对应关系和缓存大小。因果 Mask、代码实现与增量推理，接着读<a href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-from-scratch.md">手写 GQA</a>。</p>
+<p>这篇只解释头的对应关系和缓存大小。因果 Mask、代码实现与增量推理，接着读<a href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/gqa-from-scratch.md">手写 GQA</a>。</p>
 <h2 id="section-1">从八个 Query 头、两个 KV 头说起</h2>
 <p>假设一层 Attention 有 8 个 Query 头。使用 MHA 时，会为它们准备 8 个 Key 头和 8 个 Value 头，每个 Query 头各用一套 K/V。</p>
 <p>改成 2 个 KV 头的 GQA 后，Query 头仍有 8 个，只是每 4 个头共用一套 K/V：</p>
@@ -88,11 +88,11 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}but
 <p><strong>共享 K/V 的 Query 头，Attention 输出一定相同吗？</strong></p>
 <p>不一定。它们的 Query 通常不同，对同一组 Key 算出的分数和概率也可以不同。</p>
 <p><strong>GQA 的共享会要求各个 Query 头串行计算吗？</strong></p>
-<p>不会仅因共享只读 K/V 就引入这样的先后依赖。数学上的可并行与 GPU 上的实际吞吐还需区分，详见<a href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/mha-head-independence.md">MHA 各头的独立性</a>。</p>
+<p>不会仅因共享只读 K/V 就引入这样的先后依赖。数学上的可并行与 GPU 上的实际吞吐还需区分，详见<a href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/mha-head-independence.md">MHA 各头的独立性</a>。</p>
 </details>
 
-<p>继续学习：<a href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-from-scratch.md">手写 GQA：分头、Mask 与缓存推理</a>。原理来源：<a href="https://aclanthology.org/2023.emnlp-main.298/">GQA 论文</a>。</p>
-</article><footer class="article-footer">一篇文章，只回答一个主要问题。深入推导、代码与实验通过关联专题继续展开。</footer></div><nav class="toc" aria-label="本页目录"><div class="toc-label">本页内容</div><a href="#section-1">从八个 Query 头、两个 KV 头说起</a><a href="#section-2">共享输入，为什么输出还能不同？</a><a href="#section-3">少了 KV 头，具体省在哪里？</a><a class="view-source" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/attention/gqa-head-sharing.md">在 GitHub 阅读原文 ↗</a></nav></div>
+<p>继续学习：<a href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/gqa-from-scratch.md">手写 GQA：分头、Mask 与缓存推理</a>。原理来源：<a href="https://aclanthology.org/2023.emnlp-main.298/">GQA 论文</a>。</p>
+</article><footer class="article-footer">一篇文章，只回答一个主要问题。深入推导、代码与实验通过关联专题继续展开。</footer></div><nav class="toc" aria-label="本页目录"><div class="toc-label">本页内容</div><a href="#section-1">从八个 Query 头、两个 KV 头说起</a><a href="#section-2">共享输入，为什么输出还能不同？</a><a href="#section-3">少了 KV 头，具体省在哪里？</a><a class="view-source" href="https://github.com/zben777/MatInfer/blob/main/01-model/attention/gqa-head-sharing.md">在 GitHub 阅读原文 ↗</a></nav></div>
 </main>
 <script>
 (()=>{let size=18;const change=delta=>{size=Math.max(16,Math.min(22,size+delta));document.documentElement.style.setProperty('--font-size',size+'px');document.getElementById('smaller').disabled=size===16;document.getElementById('larger').disabled=size===22};document.getElementById('smaller').addEventListener('click',()=>change(-1));document.getElementById('larger').addEventListener('click',()=>change(1));const links=[...document.querySelectorAll('.toc a[href^="#"]')];const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){links.forEach(l=>l.classList.toggle('current',l.hash==='#'+entry.target.id))}},{rootMargin:'-10% 0px -65% 0px'});document.querySelectorAll('article h2').forEach(h=>observer.observe(h));})();

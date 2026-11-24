@@ -1,6 +1,6 @@
 # Attention 教学实现与正确性检查
 
-当前包含 [GQA 参考实现](gqa.py)及[正确性测试](test_gqa.py)，对应[原理与逐行解释](../../docs/01-model/attention/gqa-from-scratch.md)。
+当前包含 [GQA 参考实现](gqa.py)及[正确性测试](test_gqa.py)，对应[原理与逐行解释](../../01-model/attention/gqa-from-scratch.md)。
 
 实现默认使用因果 Mask，支持统一长度 Batch 的完整 Prefill、逐 Token 与分块缓存输入，也支持无缓存的双向模式。缓存保存真实 KV 头，内部显式重复仅用于教学；没有 RoPE、Padding、分页或融合 Kernel。
 

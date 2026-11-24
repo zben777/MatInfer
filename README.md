@@ -16,12 +16,12 @@ MatInfer 是一个持续积累的推理知识与实践仓库：从模型原理�
 
 | 层次 | 核心问题 | 内容入口 |
 | --- | --- | --- |
-| 模型原理 | 一个 Token 在模型里怎样计算？ | [Transformer、DeepSeek、MLA、MoE](docs/01-model/README.md) |
-| 推理框架 | 多个请求什么时候算、谁一起算、数据放哪里？ | [Scheduler、KV Cache、Batch、分布式推理](docs/02-serving/README.md) |
-| 核心算子 | 计算由哪些算子组成，Shape 怎样影响性能？ | [GEMM、Attention、Norm、Routing、Fusion](docs/03-operators/README.md) |
-| 高性能 Backend | 同一个算子怎样高效实现？ | [FlashAttention、FlashMLA、DeepGEMM、DeepEP](docs/04-backends/README.md) |
-| Kernel 编程 | 怎样把计算映射为线程、内存、指令与同步？ | [CUDA、Triton、CUTLASS、CuTe](docs/05-kernel-engineering/README.md) |
-| GPU 与性能分析 | Kernel 为什么慢，怎样验证优化有效？ | [SM、Memory、Roofline、Nsight](docs/06-gpu-performance/README.md) |
+| 模型原理 | 一个 Token 在模型里怎样计算？ | [Transformer、DeepSeek、MLA、MoE](01-model/README.md) |
+| 推理框架 | 多个请求什么时候算、谁一起算、数据放哪里？ | [Scheduler、KV Cache、Batch、分布式推理](02-serving/README.md) |
+| 核心算子 | 计算由哪些算子组成，Shape 怎样影响性能？ | [GEMM、Attention、Norm、Routing、Fusion](03-operators/README.md) |
+| 高性能 Backend | 同一个算子怎样高效实现？ | [FlashAttention、FlashMLA、DeepGEMM、DeepEP](04-backends/README.md) |
+| Kernel 编程 | 怎样把计算映射为线程、内存、指令与同步？ | [CUDA、Triton、CUTLASS、CuTe](05-kernel-engineering/README.md) |
+| GPU 与性能分析 | Kernel 为什么慢，怎样验证优化有效？ | [SM、Memory、Roofline、Nsight](06-gpu-performance/README.md) |
 
 这些是解释与归档的层次，不是严格的运行时调用顺序。Serving 会调用模型，模型调用算子与 Backend；编程工具和 GPU 硬件支撑实现。跨层主题通过链接连接起来。
 
