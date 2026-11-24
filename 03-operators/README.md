@@ -8,7 +8,7 @@
 
 建议学习顺序：沿 Transformer Block 拆解计算，写出输入输出 Shape，再分析访存、计算量和实现选择。
 
-[返回总导航](../导航.md) ·  · [面试题索引](../interview/README.md)
+[面试题索引](../interview/README.md)
 
 ## 内容索引
 

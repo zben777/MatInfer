@@ -8,7 +8,7 @@
 
 建议学习顺序：先建立 Token 主流程，再理解单个 Block；从 KV Cache 与 MoE 的计算特征连接框架和 Backend。
 
-[返回总导航](../导航.md) ·  · [面试题索引](../interview/README.md)
+[面试题索引](../interview/README.md)
 
 ## 内容索引
 
