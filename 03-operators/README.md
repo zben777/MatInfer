@@ -8,8 +8,6 @@
 
 建议学习顺序：沿 Transformer Block 拆解计算，写出输入输出 Shape，再分析访存、计算量和实现选择。
 
-[面试题索引](../interview/README.md)
-
 ## 内容索引
 
 - [Attention 深入专题：Online Softmax 推导与分块参考实现](attention/README.md)

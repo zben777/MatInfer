@@ -8,8 +8,6 @@
 
 建议学习顺序：先建立 Token 主流程，再理解单个 Block；从 KV Cache 与 MoE 的计算特征连接框架和 Backend。
 
-[面试题索引](../interview/README.md)
-
 ## 内容索引
 
 - [Transformer 基础专题：Attention 与 FFN 的分界线在哪](transformer/README.md)

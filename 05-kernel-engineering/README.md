@@ -8,8 +8,6 @@
 
 建议学习顺序：先理解执行映射与正确性，再做访存和计算优化；用简单算子建立习惯，之后深入 Tensor Core 与流水线。
 
-[面试题索引](../interview/README.md)
-
 ## 内容索引
 
 - [DeepSeek Kernel 源码导读专题：顺着 DeepGEMM 源码走一遍分块与流水线](deepgemm/README.md)

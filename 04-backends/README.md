@@ -8,8 +8,6 @@
 
 建议学习顺序：先区分算子与实现，再从 Shape、Layout 和瓶颈进入具体 Backend；源码与实验记录在本层关联。
 
-[面试题索引](../interview/README.md)
-
 ## 内容索引
 
 - [Attention Backend 深入专题：FlashAttention v1 / v2 / v3](attention/README.md)
