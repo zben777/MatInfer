@@ -4,7 +4,7 @@ GQA（Grouped-Query Attention）让多个 Query 头共享一组 Key / Value。�
 
 这篇从一个具体例子开始，逐步解释投影、分头、Attention、因果 Mask 和 KV Cache。配套代码已经通过 CPU 正确性检查；完整实现与验证记录放在文末。
 
-[Attention 导航](README.md) · [完整代码](../../labs/attention/gqa.py) · [验证记录](../../labs/attention/README.md)
+[Attention 导航](README.md)
 
 ## 问题与结论
 
@@ -171,35 +171,6 @@ v = v.repeat_interleave(self.group_size, dim=1)
 高效 Backend 可以直接索引共享 KV，结合工作划分复用数据，不必先物化八个 KV 头。教学代码的显式 repeat 会产生临时数据，不能把它的存储和速度当作 GQA 的固有限制。
 
 同时，Query 头仍然有 8 个，每个头还要生成自己的注意力输出。**缓存缩小四倍，不代表 Attention FLOPs 或端到端延迟缩小四倍。** 实际收益还取决于序列长度、Batch、Shape、数据精度和 Kernel 实现。
-
-### 把 Prefill 和 Decode 连起来检查
-
-完整可运行类在 [gqa.py](../../labs/attention/gqa.py)。它默认启用因果 Mask；设置 `use_cache=True` 时，返回输出与紧凑 KV Cache。下面从仓库根目录运行：
-
-```python
-import sys
-import torch
-
-sys.path.insert(0, "labs/attention")
-from gqa import GQA
-
-model = GQA(32, num_q_heads=8, num_kv_heads=2, head_dim=4).eval()
-x = torch.randn(1, 5, 32)
-with torch.no_grad():
-    full = model(x)
-    prefix, cache = model(x[:, :3], use_cache=True)
-    suffix, cache = model(x[:, 3:], past_key_value=cache, use_cache=True)
-    torch.testing.assert_close(suffix, full[:, 3:])
-    assert cache[0].shape == (1, 2, 5, 4)
-```
-
-同一个模型先整段计算，再用“前缀 Prefill + 后缀缓存输入”计算。如果缓存和 Mask 都正确，后缀输出应该在浮点容差内一致。将后缀拆成逐 Token 输入，也应满足同一性质。
-
-本实现也支持 `model(x, is_causal=False)`，用于无缓存的双向计算；它的可见范围不同，不能拿来作为上述因果结果的对照。
-
-从最初的无 Mask 版本完善到这里，需要补齐类初始化、输入参数检查、因果 Mask 和历史缓存。原始草稿漏掉了 `super().__init__()`，在创建 Linear 子模块前必须调用它，否则类无法正常实例化。
-
-配套测试已经在 macOS、Python 3.9.6、PyTorch 2.8.0、CPU float64 下通过。它们验证了不同头配置下与逐头 SDPA 的输出一致、因果前缀不受未来 Token 影响、逐 Token / 分块缓存结果一致，以及输入和参数梯度一致；还检查了非法头数。运行方法见[实验记录](../../labs/attention/README.md)。
 
 <details>
 <summary>符号与完整 Shape 速查</summary>
