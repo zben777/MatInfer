@@ -10,21 +10,6 @@ MatInfer 是一个持续积累的推理知识与实践仓库：从模型原理�
 
 > 当前状态：仓库框架与六层内容草案已建立。已有文本来自两份初始规划稿的整理；完整教程、面试答案和可运行实验仍需逐步完成。
 
-从这里开始：
-
-- [知识总导航](导航.md)：六层主线、层间联系与专题入口。
-- [仓库结构](结构.md)：各目录职责与内容归档方式。
-- [学习路线](roadmap/README.md)：按体系学习、按问题深入和面试复习。
-- [面试与自测索引](interview/README.md)：当前 70 道草案题目，链接回相应内容层。
-- [实践实验](labs/README.md)与[项目入口](projects/README.md)：后续实验和延伸项目的归档位置。
-
-学习与积累方式：
-
-```text
-具体问题 → 建立假设 → 学习原理 → 阅读源码 / 做实验
-         → 验证结论 → 整理到专题 → 自测与面试追问
-```
-
 每个专题按实际进展积累：问题背景、原理与公式、数据 Shape、性能特征、实现或源码、实验结果、面试题和参考来源。内容少时先写一篇；内容多时再拆分目录。
 
 ## 2. 六层知识主线
@@ -44,10 +29,25 @@ MatInfer 是一个持续积累的推理知识与实践仓库：从模型原理�
 
 从模型到推理服务、算子、Kernel 与 GPU 硬件，先建立整体认识。
 
+<details>
+<summary>展开大模型推理技术栈</summary>
+
 ![大模型推理技术栈](assets/images/inference-stack.png)
 
-![Transformer 原理图（以 LLaMA / Qwen 为例）](assets/images/transformer-overview.png)
+</details>
+
+<details>
+<summary>展开 Transformer 原理图（以 LLaMA / Qwen 为例）</summary>
+
+![Transformer 原理图](assets/images/transformer-overview.png)
+
+</details>
+
+<details>
+<summary>展开 DeepSeek 推理全栈面试知识地图</summary>
 
 ![DeepSeek 推理全栈面试知识地图](assets/images/deepseek-interview-map.png)
+
+</details>
 
 这三张图用于全景学习与复习，目前保留原图。部分公式、结构与并行术语仍需修订，具体技术解释以相应专题正文为准。
