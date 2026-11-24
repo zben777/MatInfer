@@ -29,7 +29,7 @@ article pre{background:#f5f7f9;border:1px solid #e9eef2;border-radius:8px;paddin
 <a class="brand" href="https://github.com/zben777/MatInfer">MatInfer<span style="color:#76a28e">.</span></a>
 <p class="tagline">理解推理，记录问题。</p>
 <div class="nav-label">模型原理</div><div class="nav-title">FFN 与门控</div>
-<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/transformer/attention-and-ffn.md">层里只有一步跨位置：Attention 与 FFN</a><a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/moe/deepseek-moe.md">把 FFN 切成 256 份：DeepSeekMoE</a><a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/normalization/layernorm-rmsnorm.md">LayerNorm 与 RMSNorm</a><a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/docs/03-operators/attention/online-softmax.md">为省一次访存而生：Online Softmax</a>
+<a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/transformer/attention-and-ffn.md">层里只有一步跨位置：Attention 与 FFN</a><a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/moe/deepseek-moe.md">把 FFN 切成 256 份：DeepSeekMoE</a><a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/01-model/normalization/layernorm-rmsnorm.md">LayerNorm 与 RMSNorm</a><a class="side-link" href="https://github.com/zben777/MatInfer/blob/main/03-operators/attention/online-softmax.md">为省一次访存而生：Online Softmax</a>
 <div class="side-footer">MatInfer · 阅读页</div>
 </aside>
 <main class="main"><header class="topbar"><div class="crumb">模型原理<span>/</span>FFN 与门控</div><div class="reading-controls"><small>阅读字号</small><button id="smaller" aria-label="减小字号">−</button><button id="larger" aria-label="增大字号">＋</button></div></header>
@@ -151,7 +151,7 @@ m(torch.tensor([[1.0, 2.0]]))   # tensor([[1.9775, 1.6479]])</code></pre>
 <p>不会。两条支路都是逐位置的线性投影，逐元素相乘也是逐位置的，FFN 的位置独立性一点没动。</p>
 <footer class="article-footer">MatInfer · 用图建立直觉，用推导解释细节。</footer>
 </article></div>
-<nav class="toc" aria-label="本页目录"><div class="toc-label">本页内容</div><a href="#section-1">挤压</a><a href="#section-2">把阶跃磨圆</a><a href="#section-3">门被写死</a><a href="#section-4">另起一条支路</a><a href="#section-5">一次对照</a><a href="#section-6">门里放什么</a><a href="#section-7">多出来的一条投影要付钱</a><a href="#section-8">闸与路</a><a href="#section-9">附录 A　参考实现</a><a href="#section-10">附录 B　面试速查</a><a class="view-source" href="https://github.com/zben777/MatInfer/blob/main/docs/01-model/ffn/swiglu.md">在 GitHub 阅读原文 ↗</a></nav>
+<nav class="toc" aria-label="本页目录"><div class="toc-label">本页内容</div><a href="#section-1">挤压</a><a href="#section-2">把阶跃磨圆</a><a href="#section-3">门被写死</a><a href="#section-4">另起一条支路</a><a href="#section-5">一次对照</a><a href="#section-6">门里放什么</a><a href="#section-7">多出来的一条投影要付钱</a><a href="#section-8">闸与路</a><a href="#section-9">附录 A　参考实现</a><a href="#section-10">附录 B　面试速查</a><a class="view-source" href="https://github.com/zben777/MatInfer/blob/main/01-model/ffn/swiglu.md">在 GitHub 阅读原文 ↗</a></nav>
 </div></main>
 <dialog id="diagram-dialog" aria-label="查看专题图" style="padding:16px;border:1px solid #ddd;border-radius:12px;width:min(1200px,95vw);max-height:95vh"><button id="close-diagram" autofocus style="display:block;margin:0 0 12px auto">关闭 ×</button><img id="large-diagram" alt="" style="width:100%;min-width:900px;height:auto"></dialog>
 <script>

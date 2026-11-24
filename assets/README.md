@@ -74,7 +74,6 @@
 
 | 阅读页 | 对应正文 |
 | --- | --- |
-| `docs/normalization.html` | `01-model/normalization/layernorm-rmsnorm.md` |
 | `03-operators/attention/online-softmax.html` | `03-operators/attention/online-softmax.md` |
 | `01-model/moe/deepseek-moe.html` | `01-model/moe/deepseek-moe.md` |
 | `01-model/transformer/attention-and-ffn.html` | `01-model/transformer/attention-and-ffn.md` |
