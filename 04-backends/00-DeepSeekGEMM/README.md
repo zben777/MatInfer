@@ -6,12 +6,16 @@ DeepGEMM 已从早期的 FP8 GEMM 库演进为统一的 Tensor Core 算子库：
 
 **适用环境（硬门槛）**：SM90（H100 / H800）与 SM100（B200 / GB200），CUDA 12.9+、C++20。4090（SM89）、3090（SM86）不支持；A100 仅保留一套 legacy Triton 实现。
 
-| 专题 | 核心问题 |
-| --- | --- |
+本目录正文按 Day 编号推进，从调用链入门，逐步进入 Tiling 与 TMA / WGMMA 流水线。
+
+| Day | 专题 | 核心问题 |
+| --- | --- | --- |
+| [Day 01](Day01-调用链.md) | 一行调用，穿过五层 | 从 `fp8_gemm_nt` 到 CUDA 模板中间经过哪几层？为什么安装期不编译？ |
+| Day 02（待补） | CTA Tiling | 大矩阵切成多大块、分块后算术强度由什么决定？先看 [Kernel 层已有的源码解读](../../05-kernel-engineering/deepgemm/cta-tiling.md)。 |
+| Day 03（待补） | Warp / MMA Tiling | warp 如何分工、MMA 指令怎样喂满 Tensor Core？ |
 | [本层正文：DeepGEMM](../README.md#section-06) | 它解决什么 GEMM 问题，scale 布局和 NT 约定是什么？ |
 | [本层正文：Grouped GEMM / for MoE](../README.md#section-10) | Grouped GEMM 为什么适合 MoE？ |
-| [Kernel 层：CTA Tiling 源码解读](../../05-kernel-engineering/deepgemm/cta-tiling.md) | 大矩阵切成多大块、分块后算术强度由什么决定？ |
 
-状态：调用链与源码结构待补（当前仅有 Kernel 层的 CTA Tiling 一篇深度解读）。
+状态：Day 01 已写成源码导读；Day 02 / 03 待补。
 
 [返回高性能 Backend](../README.md)
