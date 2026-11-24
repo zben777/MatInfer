@@ -10,6 +10,22 @@
 
 ## 内容索引
 
+### DeepSeek 开源项目专题
+
+按仓库逐个建立源码导读，顺序与官方仓库列表一致。每个目录先放索引页，正文随学习推进补齐。
+
+| 编号 | 项目 | 核心问题 |
+| --- | --- | --- |
+| 00 | [DeepSeekGEMM](00-DeepSeekGEMM/README.md) | FP8 / FP4 GEMM 的 Tiling、scale 布局与 JIT 编译 |
+| 01 | [FlashMLA](01-FlashMLA/README.md) | MLA 注意力 kernel 为什么不能只当作 FlashAttention 换头 |
+| 02 | [DeepEP](02-DeepEP/README.md) | MoE 的 all-to-all 通信 kernel 怎么做 |
+| 03 | [TileKernels](03-TileKernels/README.md) | TileLang DSL 算子库在 Backend 层的定位 |
+| 04 | [DeepSelect](04-DeepSelect/README.md) | DSA 的 TopK 算子为什么比 torch.topk 快 |
+| 05 | [DeepInfer](05-DeepInfer/README.md) | 推理框架怎样调用这些底层 Backend |
+| 06 | [DeepSpec](06-DeepSpec/README.md) | 投机解码草稿模型的训练与评估链路 |
+
+### 其他专题
+
 - [Attention Backend 深入专题：FlashAttention v1 / v2 / v3](attention/README.md)
 
 - [一个算子是怎样变成高性能 Kernel 的](#section-01)
