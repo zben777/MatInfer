@@ -6,3 +6,6 @@ __pycache__/
 *.py[cod]
 .venv/
 node_modules/
+
+.workbuddy/
+Live模型/
