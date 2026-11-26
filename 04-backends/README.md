@@ -18,7 +18,7 @@
 
 | 编号 | 项目 | 官方仓库 | 核心问题 |
 | --- | --- | --- | --- |
-| 01 | [DeepSeekGEMM](01-DeepSeekGEMM/README.md) | [DeepGEMM](https://github.com/deepseek-ai/DeepGEMM) | FP8 / FP4 GEMM 的 Tiling、scale 布局与 JIT 编译 |
+| 01 | [DeepGEMM](01-DeepGEMM/README.md) | [DeepGEMM](https://github.com/deepseek-ai/DeepGEMM) | FP8 / FP4 GEMM 的 Tiling、scale 布局与 JIT 编译 |
 | 02 | [FlashMLA](02-FlashMLA/README.md) | [FlashMLA](https://github.com/deepseek-ai/FlashMLA) | MLA 注意力 kernel 为什么不能只当作 FlashAttention 换头 |
 | 03 | [DeepEP](03-DeepEP/README.md) | [DeepEP](https://github.com/deepseek-ai/DeepEP) | MoE 的 all-to-all 通信 kernel 怎么做 |
 | 04 | [TileKernels](04-TileKernels/README.md) | [TileKernels](https://github.com/deepseek-ai/TileKernels) | TileLang DSL 算子库在 Backend 层的定位 |

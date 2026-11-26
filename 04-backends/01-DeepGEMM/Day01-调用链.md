@@ -193,7 +193,7 @@ FP32 的指数在 `bits[30:23]`，所以第一个右移 23 就落到最低字节
 
 从"会写 CUDA"到"会写 Tensor Core kernel"，门槛就在这一层。下一步写 Warp / MMA Tiling，接着往下走。
 
-[返回 DeepSeekGEMM 专题](README.md) · [Kernel 层：CTA Tiling](../../05-kernel-engineering/deepgemm/cta-tiling.md)
+[返回 DeepGEMM 专题](README.md) · [Kernel 层：CTA Tiling](../../05-kernel-engineering/deepgemm/cta-tiling.md)
 
 ## 附录：一个具体 shape 从 Python 走到 WGMMA
 
