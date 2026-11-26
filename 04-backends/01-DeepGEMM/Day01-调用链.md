@@ -141,7 +141,7 @@ num_cycles = max(L1 cycles, L2 cycles) / wave_efficiency
 
 ## 第五层：CUDA 模板才是真正干活的地方
 
-最后落到 `deep_gemm/include/deep_gemm/impls/sm90_fp8_gemm_1d1d.cuh`。到这里才回答"数据怎么搬、怎么算"：TMA 描述符怎么取、WGMMA 怎么发、swizzle 怎么避 bank conflict、流水线怎么把搬运和计算重叠。
+最后落到 [`sm90_fp8_gemm_1d1d.cuh`](https://github.com/deepseek-ai/DeepGEMM/blob/5081f8513af57e61696de4f4f04b0e707ffb503e/deep_gemm/include/deep_gemm/impls/sm90_fp8_gemm_1d1d.cuh)（固定到 commit `5081f851`，与本文对应）。到这里才回答"数据怎么搬、怎么算"：TMA 描述符怎么取、WGMMA 怎么发、swizzle 怎么避 bank conflict、流水线怎么把搬运和计算重叠。
 
 这篇不进去。它的入口在 [CTA Tiling](../../05-kernel-engineering/deepgemm/cta-tiling.md)，那里从算术强度 0.5 FLOP/B 起手，一路推到 block 尺寸被寄存器和片上容量卡住的位置。本文停在这层门口。
 

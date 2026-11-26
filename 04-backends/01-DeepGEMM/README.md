@@ -16,6 +16,10 @@ DeepGEMM 已从早期的 FP8 GEMM 库演进为统一的 Tensor Core 算子库：
 | [本层正文：DeepGEMM](../README.md#section-06) | 它解决什么 GEMM 问题，scale 布局和 NT 约定是什么？ |
 | [本层正文：Grouped GEMM / for MoE](../README.md#section-10) | Grouped GEMM 为什么适合 MoE？ |
 
+**核心源码**（固定到 commit `5081f851`，与本地浅克隆一致）：
+
+- [sm90_fp8_gemm_1d1d.cuh](https://github.com/deepseek-ai/DeepGEMM/blob/5081f8513af57e61696de4f4f04b0e707ffb503e/deep_gemm/include/deep_gemm/impls/sm90_fp8_gemm_1d1d.cuh)——SM90 上 1D1D 的 FP8 GEMM kernel，Day 01 逐层调用链最终落到的文件。
+
 状态：Day 01 已写成源码导读；Day 02 / 03 待补。
 
 [返回高性能 Backend](../README.md)
