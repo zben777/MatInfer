@@ -8,6 +8,17 @@
 
 建议学习顺序：先追踪一次请求，再理解调度和显存管理，最后比较并行、PD 分离与端到端指标。
 
+## 框架源码专题
+
+按框架逐个建立源码导读，每个目录先放索引页，正文随学习推进补齐。
+
+| 专题 | 官方仓库 | 核心问题 |
+| --- | --- | --- |
+| [DeepInfer](DeepInfer/README.md) | [deepseek-ai/DeepInfer](https://github.com/deepseek-ai/DeepInfer) | 推理框架怎样调用底层 Backend |
+| [DeepSpec](DeepSpec/README.md) | [deepseek-ai/DeepSpec](https://github.com/deepseek-ai/DeepSpec) | 投机解码草稿模型的训练与评估链路 |
+| [vLLM](vLLM/README.md) | [vllm-project/vllm](https://github.com/vllm-project/vllm) | PagedAttention 与 Continuous Batching 怎样落到实现 |
+| [SGLang](SGLang/README.md) | [sgl-project/sglang](https://github.com/sgl-project/sglang) | RadixAttention 与结构化生成怎样落到实现 |
+
 ## 内容索引
 
 - [整张图的核心问题](#section-01)

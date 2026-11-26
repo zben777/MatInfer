@@ -6,9 +6,9 @@ DeepInfer 是支撑 DeepSeek 大规模线上服务的高性能推理框架，本
 
 | 专题 | 核心问题 |
 | --- | --- |
-| [Serving 层：推理框架与服务系统](../../02-serving/README.md) | 调度、显存与并行策略在框架层怎么组织？ |
-| [本层正文：Backend 映射总表](../README.md#section-22) | 框架调用的底层 Backend 都来自哪里？ |
+| [本层正文：推理框架与服务系统](../README.md) | 调度、显存与并行策略在框架层怎么组织？ |
+| [Backend 映射总表](../../04-backends/README.md#section-22) | 框架调用的底层 Backend 都来自哪里？ |
 
-状态：仓库定位已核对，源码解读待补。框架本体主要归 Serving 层，此处只保留与 Backend 的衔接入口。
+状态：仓库定位已核对，源码解读待补。框架本体归 Serving 层，此处保留与 Backend 的衔接入口。
 
-[返回高性能 Backend](../README.md)
+[返回 Serving 层](../README.md)
